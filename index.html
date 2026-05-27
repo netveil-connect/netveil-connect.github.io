@@ -5,385 +5,272 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>NetVeil</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0a0e1a;min-height:100%;}
+:root{
+  --bg:#0a0e1a;
+  --card:linear-gradient(180deg,rgba(14,20,42,.97),rgba(10,14,30,.99));
+  --b1:rgba(0,160,255,.1);
+  --b2:rgba(255,255,255,.05);
+  --b3:rgba(255,255,255,.03);
+  --cyan:#00d4ff;
+  --blue:#0066ff;
+  --grad:linear-gradient(135deg,#00d4ff,#0066ff);
+  --green:#22c55e;
+  --t1:#E8EDF8;
+  --t2:#B0C0DC;
+  --t3:#6A7A9A;
+  --t4:#384060;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);}
+.wrap{max-width:420px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;}
+.blob1{position:absolute;width:320px;height:240px;background:radial-gradient(ellipse,rgba(0,180,255,.07) 0%,transparent 70%);top:-60px;left:-60px;pointer-events:none;}
+.blob2{position:absolute;width:260px;height:200px;background:radial-gradient(ellipse,rgba(0,80,255,.05) 0%,transparent 70%);top:280px;right:-60px;pointer-events:none;}
+.inner{position:relative;z-index:1;}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;}
+.logo{font-size:16px;font-weight:700;letter-spacing:-.4px;color:var(--t1);}
+.logo em{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;}
+.nav-tabs{display:flex;background:rgba(255,255,255,.03);border:1px solid var(--b2);border-radius:12px;padding:3px;gap:2px;}
+.nt{background:transparent;border:none;padding:6px 11px;border-radius:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--t3);cursor:pointer;transition:all .15s;}
+.nt.on{background:rgba(0,160,255,.12);color:var(--cyan);border:1px solid rgba(0,160,255,.18);}
+
+.pg{display:none;padding:0 16px 32px;}
+.pg.on{display:block;}
+
+/* DEMO BADGE */
+.demo-badge{background:var(--card);border:1px solid var(--b1);border-radius:18px;padding:14px 16px;margin-bottom:10px;}
+.badge-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,180,255,.5);min-width:6px;}
+.badge-title{font-size:11px;font-weight:600;color:var(--t2);}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ac{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:500;}
+.ac.on{color:var(--green);}
+.ac.off{color:var(--t4);}
+.acdot{width:4px;height:4px;border-radius:50%;min-width:4px;}
+.ac.on .acdot{background:var(--green);}
+.ac.off .acdot{background:rgba(255,255,255,.07);}
+
+/* MAIN CARD */
+.main-card{background:var(--card);border:1px solid var(--b1);border-radius:18px;padding:16px;margin-bottom:10px;}
+.status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.status-pill{display:flex;align-items:center;gap:6px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.15);border-radius:999px;padding:5px 11px;font-size:10px;font-weight:600;color:var(--green);}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pp 2s infinite;}
+@keyframes pp{0%,100%{opacity:1;}50%{opacity:.25;}}
+.update-tag{font-size:10px;font-weight:500;color:var(--t4);}
+.update-tag span{color:var(--t3);}
+
+.qr-key-row{display:flex;gap:14px;align-items:flex-start;}
+.qr-wrap{display:flex;flex-direction:column;align-items:center;}
+.qr-box{width:108px;height:108px;min-width:108px;background:#eef2ff;border-radius:12px;padding:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.qr-box canvas,.qr-box img{width:100%!important;height:100%!important;}
+.qr-loading{display:flex;gap:4px;align-items:center;justify-content:center;width:100%;height:100%;}
+.ql{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:ql 1.2s infinite;}
+.ql:nth-child(2){animation-delay:.15s;}
+.ql:nth-child(3){animation-delay:.3s;}
+@keyframes ql{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:1;transform:scale(1.1);}}
+
+.key-col{flex:1;min-width:0;}
+.key-label{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.3px;text-transform:uppercase;margin-bottom:6px;}
+.key-box{background:rgba(255,255,255,.02);border:1px solid var(--b2);border-radius:10px;padding:9px 10px;font-family:'SF Mono','Fira Code',monospace;font-size:8.5px;color:var(--t3);word-break:break-all;line-height:1.85;min-height:48px;display:flex;align-items:center;}
+.key-box em{color:var(--cyan);font-style:normal;}
+.key-skeleton{width:100%;height:36px;background:linear-gradient(90deg,rgba(255,255,255,.02) 25%,rgba(0,160,255,.05) 50%,rgba(255,255,255,.02) 75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:6px;}
+@keyframes sk{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* PRIMARY BUTTON — cyan-blue gradient */
+.btn-copy{width:100%;margin-top:12px;background:var(--grad);border:none;border-radius:14px;padding:13px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 28px rgba(0,160,255,.25);}
+.btn-copy:hover{box-shadow:0 6px 36px rgba(0,160,255,.4);transform:translateY(-1px);}
+.btn-copy:active{transform:scale(.98);box-shadow:none;}
+.btn-copy.copied{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green);box-shadow:none;}
+
+/* TG CARD */
+.tg-card{background:var(--card);border:1px solid var(--b1);border-radius:18px;overflow:hidden;margin-bottom:10px;}
+.tg-head{padding:12px 16px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;}
+.tg-lbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;}
+.tg-ch-btn{background:rgba(0,160,255,.06);border:1px solid rgba(0,160,255,.15);border-radius:8px;padding:6px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;}
+.tg-ch-btn:hover{border-color:rgba(0,180,255,.3);color:var(--cyan);}
+.tg-body{padding:12px 16px;}
+
+.webapp-card{background:rgba(0,160,255,.04);border:1px solid rgba(0,160,255,.1);border-radius:14px;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.webapp-card:hover{border-color:rgba(0,180,255,.22);background:rgba(0,160,255,.08);}
+.wa-icon{width:38px;height:38px;border-radius:10px;overflow:hidden;min-width:38px;}
+.wa-icon img{width:100%;height:100%;object-fit:cover;}
+.wa-info{flex:1;}
+.wa-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;}
+.wa-sub{font-size:10px;color:var(--t3);}
+.wa-arr{color:var(--t3);font-size:16px;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ig{background:var(--b3);border:1px solid var(--b2);border-radius:12px;padding:10px 12px;}
+.ig-lbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1px;margin-bottom:5px;}
+.ig-val{font-size:11px;color:var(--t3);line-height:1.55;}
+.ig-val b{color:var(--t2);font-weight:600;}
+
+/* REVIEWS */
+.sec-title{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--b2);}
+.empty-state{text-align:center;padding:48px 0;font-size:11px;color:var(--t4);}
+
+/* PRICES */
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.pc{background:var(--b3);border:1px solid var(--b2);border-radius:10px;padding:10px 6px;text-align:center;transition:border-color .15s;}
+.pc:hover{border-color:rgba(0,160,255,.2);}
+.pc-price{font-size:14px;font-weight:700;color:var(--t1);}
+.pc-per{font-size:8px;color:var(--t4);margin-bottom:5px;margin-top:1px;}
+.pc-f{font-size:9px;color:var(--t3);line-height:1.6;}
+
+.ft{border-top:1px solid var(--b2);padding:12px 20px;display:flex;justify-content:flex-end;}
+.ft-txt{font-size:9px;color:var(--t4);}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="inner">
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
-*{box-sizing:border-box;margin:0;padding:0;} html,body{background:#030407;min-height:100%;}
-.W{font-family:'DM Sans',sans-serif;background:#030407;min-height:100vh;} .page-wrap{max-width:480px;margin:0 auto;background:#08090e;min-height:100vh;border-left:0.5px solid #111520;border-right:0.5px solid #111520;}
-.BF{display:contents;}
-.BB{display:none;}
-.dots{display:flex;gap:5px;}
-.dot{width:10px;height:10px;border-radius:50%;background:#2e3340;}
-.UB{flex:1;background:#1a1d24;border-radius:6px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:11px;color:#3a4560;display:flex;align-items:center;gap:6px;}
-.UB em{color:#3adb82;font-style:normal;}
-.SC{min-height:500px;}
-.pg{display:none;} .pg.on{display:block;}
-.NAV{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:0.5px solid #151820;}
-.LOGO{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:-0.5px;} .LOGO .net{color:#ffffff;} .LOGO .veil{color:#4a7ab8;}
-
-.navl{display:flex;gap:6px;}
-.nb{background:transparent;border:1px solid #2a2f3a;padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:#c0ccd8;cursor:pointer;transition:all .15s;}
-.nb:hover{border-color:#3a4555;color:#ffffff;}
-.nb.on{color:#4a7ab8;border-color:#4a7ab8;background:rgba(74,122,184,0.08);}
-
-.HOME{padding:28px 28px 0;}
-
-.demo-warn{background:#0e1520;border:0.5px solid #1a2535;border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;}
-.warn-icon{width:18px;height:18px;min-width:18px;background:#1a2535;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;}
-.warn-icon svg{width:10px;height:10px;}
-.warn-title{font-size:12px;font-weight:500;color:#7a9cc0;margin-bottom:6px;}
-.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
-.ac-item{display:flex;align-items:center;gap:6px;font-size:11px;font-family:'Space Mono',monospace;}
-.ac-on{color:#3adb82;}
-.ac-off{color:#2a3545;}
-.dot-on{width:6px;height:6px;border-radius:50%;background:#3adb82;min-width:6px;}
-.dot-off{width:6px;height:6px;border-radius:50%;background:#1e2535;min-width:6px;border:0.5px solid #2a3545;}
-
-.main-row{display:flex;gap:20px;align-items:flex-start;margin-bottom:20px;}
-
-.qr-col{display:flex;flex-direction:column;align-items:center;gap:10px;}
-.qr-box{background:#eef0f5;border-radius:10px;padding:8px;width:120px;height:120px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-.qr-box canvas,.qr-box img{width:100%!important;height:100%!important;}
-.qr-loading{display:flex;align-items:center;justify-content:center;width:100%;height:100%;}
-.qr-loading-dot{width:6px;height:6px;border-radius:50%;background:#3adb82;animation:ldot 1.2s infinite;margin:0 2px;}
-.qr-loading-dot:nth-child(2){animation-delay:.2s;}
-.qr-loading-dot:nth-child(3){animation-delay:.4s;}
-@keyframes ldot{0%,100%{opacity:.2;transform:scale(.8);}50%{opacity:1;transform:scale(1.1);}}
-.qr-tag{font-family:'Space Mono',monospace;font-size:9px;color:#2a3545;display:flex;align-items:center;gap:4px;}
-.ptag{width:5px;height:5px;border-radius:50%;background:#3adb82;}
-
-.info-col{flex:1;}
-.status-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.spill{display:flex;align-items:center;gap:5px;background:#0c1a12;border:0.5px solid #1a3a27;border-radius:16px;padding:4px 10px;font-family:'Space Mono',monospace;font-size:10px;color:#3adb82;}
-.pdot{width:5px;height:5px;border-radius:50%;background:#3adb82;animation:pp 2s infinite;}
-@keyframes pp{0%,100%{opacity:1;}50%{opacity:.25;}}
-.key-box{background:#0d0f14;border:0.5px solid #151820;border-radius:7px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:9px;color:#2a3a50;word-break:break-all;line-height:1.7;margin-bottom:12px;min-height:52px;display:flex;align-items:center;}
-.key-box em{color:#3adb82;font-style:normal;}
-.key-skeleton{width:100%;height:36px;background:linear-gradient(90deg,#111520 25%,#151c28 50%,#111520 75%);background-size:200% 100%;animation:skel 1.5s infinite;border-radius:4px;}
-@keyframes skel{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-
-.btn-row{display:flex;flex-direction:column;gap:6px;}
-.B1{background:#3adb82;color:#051a0e;border:none;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;width:100%;justify-content:center;transition:all .15s;}
-.B1:hover{background:#4aeb92;}
-.B1:active{transform:scale(.98);}
-.B1.copied{background:#1a3a27;color:#3adb82;border:0.5px solid #2a5a37;}
-
-.divider{height:0.5px;background:#111520;margin:0 0 16px;}
-
-.tg-block{background:#0a1020;border:0.5px solid #101828;border-radius:10px;overflow:hidden;margin-bottom:20px;}
-.tg-head{padding:12px 16px;border-bottom:0.5px solid #101828;display:flex;align-items:center;justify-content:space-between;}
-.tg-label{font-family:'Space Mono',monospace;font-size:9px;color:#2a3550;letter-spacing:1.5px;}
-.tg-btns{display:flex;gap:6px;}
-.tg-btn-ch{background:#0e1e35;border:0.5px solid #1a3060;border-radius:6px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:11px;color:#4a7ab8;cursor:pointer;display:flex;align-items:center;gap:5px;}
-
-.tg-body{padding:14px 16px;}
-.tg-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.tg-card{background:#0d111c;border:0.5px solid #131a28;border-radius:8px;padding:10px 12px;}
-.tg-card-label{font-family:'Space Mono',monospace;font-size:9px;color:#2a3550;margin-bottom:6px;letter-spacing:1px;}
-.tg-card-val{font-size:12px;color:#8090a8;}
-.tg-card-val b{color:#c0ccd8;font-weight:500;}
-
-.webapp-preview{background:#0d111c;border:0.5px solid #1a4a2a;border-radius:8px;padding:12px;display:flex;align-items:center;gap:12px;margin-top:8px;}
-.wa-icon{width:36px;height:36px;background:#0c1a12;border:0.5px solid #1a4a2a;border-radius:8px;display:flex;align-items:center;justify-content:center;}
-.wa-info{flex:1;}
-.wa-title{font-size:12px;font-weight:500;color:#c0ccd8;margin-bottom:2px;}
-.wa-sub{font-size:10px;color:#2a3550;font-family:'Space Mono',monospace;}
-.wa-arrow{font-size:16px;color:#3adb82;}
-
-.FT{border-top:0.5px solid #111520;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;}
-.ft{font-family:'Space Mono',monospace;font-size:9px;color:#1e2535;}
-
-/* ── REVIEWS ── */
-.REV{padding:24px 28px;}
-.sec-lbl{font-family:'Space Mono',monospace;font-size:9px;color:#2a3545;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.sec-lbl::after{content:'';flex:1;height:0.5px;background:#111520;}
-
-/* ── PRICES ── */
-.PRIC{padding:24px 28px;}
-.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
-.pc{background:#0d0f14;border:0.5px solid #151820;border-radius:9px;padding:10px 8px;min-width:0;}
-.pclbl{font-family:'Space Mono',monospace;font-size:8px;color:#2a3545;margin-bottom:6px;letter-spacing:0.5px;}
-.pcprice{font-size:16px;font-weight:600;color:#c8d0e0;margin-bottom:2px;}
-.pcper{font-size:9px;color:#2a3545;margin-bottom:8px;font-family:'Space Mono',monospace;}
-.pcf{font-size:10px;color:#445060;line-height:1.7;}
-
-/* ── MOBILE ── */
-@media (max-width: 520px) {
-  .page-wrap{border-left:none;border-right:none;}
-  .NAV{padding:12px 16px;}
-  .nb{padding:6px 10px;font-size:12px;}
-  .HOME{padding:16px 16px 0;}
-  .main-row{gap:12px;}
-  .qr-box{width:100px;height:100px;}
-  .key-box{font-size:8px;}
-  .tg-head{flex-direction:column;gap:8px;align-items:flex-start;}
-  .tg-btns{width:100%;}
-  .tg-btn-ch{flex:1;justify-content:center;}
-  .REV{padding:16px 16px;}
-  .PRIC{padding:16px 16px;}
-  .pgrid{grid-template-columns:repeat(5,1fr);gap:4px;}
-  .pc{padding:8px 5px;}
-  .pcprice{font-size:13px;}
-  .pcf{font-size:9px;}
-  .FT{padding:10px 16px;flex-direction:column;gap:4px;text-align:center;}
-}
-</style>
-
-<div class="W">
-<div class="BF">
-  <div class="BB">
-    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="UB"><em>🔒</em><em>netveil</em>.github.io</div>
-  </div>
-
-  <div class="page-wrap"><div class="SC">
-    <nav class="NAV">
-      <div class="LOGO"><span class="net">Net</span><span class="veil">Veil</span></div>
-      <div class="navl">
-        <button class="nb on" onclick="sp('home',this)">Подключение</button>
-        <button class="nb" onclick="sp('rev',this)">Отзывы</button>
-        <button class="nb" onclick="sp('pric',this)">Тарифы</button>
+    <nav class="nav">
+      <div class="logo">Net<em>Veil</em></div>
+      <div class="nav-tabs">
+        <button class="nt on" onclick="sp('home',this)">Подключение</button>
+        <button class="nt" onclick="sp('rev',this)">Отзывы</button>
+        <button class="nt" onclick="sp('pric',this)">Тарифы</button>
       </div>
     </nav>
 
     <div id="ph" class="pg on">
-      <div class="HOME">
-
-        <div class="demo-warn">
-          <div class="warn-icon">
-            <svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#4a7ab8" stroke-width="1"/><line x1="5" y1="3" x2="5" y2="5.5" stroke="#4a7ab8" stroke-width="1.2" stroke-linecap="round"/><circle cx="5" cy="7" r=".6" fill="#4a7ab8"/></svg>
-          </div>
-          <div>
-            <div class="warn-title">Демо-ключ — ограниченный доступ</div>
-            <div class="access-grid">
-              <div class="ac-item ac-on"><div class="dot-on"></div>Telegram</div>
-              <div class="ac-item ac-on"><div class="dot-on"></div>Новости / RSS</div>
-              <div class="ac-item ac-on"><div class="dot-on"></div>Почта / мессенджеры</div>
-              <div class="ac-item ac-on"><div class="dot-on"></div>Лёгкий веб-сёрфинг</div>
-              <div class="ac-item ac-off"><div class="dot-off"></div>YouTube / Netflix</div>
-              <div class="ac-item ac-off"><div class="dot-off"></div>TikTok / Instagram</div>
-              <div class="ac-item ac-off"><div class="dot-off"></div>Торренты</div>
-              <div class="ac-item ac-off"><div class="dot-off"></div>Стриминг видео</div>
-            </div>
-            <div style="margin-top:8px;font-size:10px;color:#2a3550;font-family:'Space Mono',monospace;">лимит: 8 ГБ · 2 устройства · сброс ключа в 03:00</div>
-          </div>
+      <div class="demo-badge">
+        <div class="badge-top"><div class="badge-dot"></div><div class="badge-title">Демо-ключ — ограниченный доступ</div></div>
+        <div class="access-grid">
+          <div class="ac on"><div class="acdot"></div>Telegram</div>
+          <div class="ac on"><div class="acdot"></div>Новости / RSS</div>
+          <div class="ac on"><div class="acdot"></div>Почта / мессенджеры</div>
+          <div class="ac on"><div class="acdot"></div>Лёгкий веб-сёрфинг</div>
+          <div class="ac off"><div class="acdot"></div>YouTube / Netflix</div>
+          <div class="ac off"><div class="acdot"></div>TikTok / Instagram</div>
+          <div class="ac off"><div class="acdot"></div>Торренты</div>
+          <div class="ac off"><div class="acdot"></div>Стриминг видео</div>
         </div>
+      </div>
 
-        <div class="main-row">
-          <div class="qr-col">
+      <div class="main-card">
+        <div class="status-row">
+          <div class="status-pill"><div class="sdot"></div>сервер активен</div>
+          <div class="update-tag">обновлён <span id="updated-time">—</span></div>
+        </div>
+        <div class="qr-key-row">
+          <div class="qr-wrap">
             <div class="qr-box" id="qr-container">
-              <div class="qr-loading">
-                <div class="qr-loading-dot"></div>
-                <div class="qr-loading-dot"></div>
-                <div class="qr-loading-dot"></div>
-              </div>
+              <div class="qr-loading"><div class="ql"></div><div class="ql"></div><div class="ql"></div></div>
             </div>
-            <div class="qr-tag"><div class="ptag"></div><span id="updated-time">загрузка...</span></div>
           </div>
-
-          <div class="info-col">
-            <div class="status-row">
-              <div class="spill"><div class="pdot"></div>сервер активен</div>
-
-            </div>
-            <div class="key-box" id="key-display">
-              <div class="key-skeleton"></div>
-            </div>
-            <div class="btn-row">
-              <button class="B1" id="copy-btn" onclick="copyKey()">
-                <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="#051a0e" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="#051a0e"/><rect x="1" y="3" width="9" height="11" rx="2" stroke="#3adb82" stroke-width="1.4"/></svg>
-                Скопировать ключ
-              </button>
-            </div>
+          <div class="key-col">
+            <div class="key-label">VLESS Reality</div>
+            <div class="key-box" id="key-display"><div class="key-skeleton"></div></div>
           </div>
         </div>
+        <button class="btn-copy" id="copy-btn" onclick="copyKey()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
+          Скопировать ключ
+        </button>
+      </div>
 
-        <div class="divider"></div>
-
-        <div class="tg-block">
-          <div class="tg-head">
-            <div class="tg-label">TELEGRAM</div>
-            <div class="tg-btns">
-              <button class="tg-btn-ch" onclick="window.open('https://t.me/netveil_info','_blank')">
-                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm3.45 4.77l-1.17 5.5c-.09.4-.32.5-.65.31L8 9.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L4.9 8.77 3.28 8.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="#4a7ab8"/></svg>
-                Канал
-              </button>
+      <div class="tg-card">
+        <div class="tg-head">
+          <div class="tg-lbl">TELEGRAM</div>
+          <button class="tg-ch-btn" onclick="window.open('https://t.me/netveil_info','_blank')">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm3.45 4.77l-1.17 5.5c-.09.4-.32.5-.65.31L8 9.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L4.9 8.77 3.28 8.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="currentColor"/></svg>
+            Канал
+          </button>
+        </div>
+        <div class="tg-body">
+          <div class="webapp-card" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
+            <div class="wa-icon"><img src="logo.png" alt="NetVeil"></div>
+            <div class="wa-info">
+              <div class="wa-title">NetVeil Connect</div>
+              <div class="wa-sub">тарифы · оплата · личный ключ</div>
             </div>
+            <div class="wa-arr">›</div>
           </div>
-          <div class="tg-body">
-            <div class="webapp-preview" style="cursor:pointer;" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
-              <div class="wa-icon">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="3" stroke="#3adb82" stroke-width="1.3"/><path d="M5 9h8M5 6h5M5 12h6" stroke="#3adb82" stroke-width="1.1" stroke-linecap="round"/></svg>
-              </div>
-              <div class="wa-info">
-                <div class="wa-title">NetVeil Connect</div>
-                <div class="wa-sub">тарифы · оплата · личный ключ</div>
-              </div>
-              <div class="wa-arrow">›</div>
-            </div>
-            <div style="margin-top:8px;">
-              <div class="tg-row">
-                <div class="tg-card">
-                  <div class="tg-card-label">ПОСЛЕ ОПЛАТЫ</div>
-                  <div class="tg-card-val"><b>Личный UUID</b> без ограничений по сайтам</div>
-                </div>
-                <div class="tg-card">
-                  <div class="tg-card-label">РЕФЕРАЛ</div>
-                  <div class="tg-card-val">+<b>30 дней</b> за каждого приглашённого</div>
-                </div>
-              </div>
-            </div>
+          <div class="info-grid">
+            <div class="ig"><div class="ig-lbl">ПОСЛЕ ОПЛАТЫ</div><div class="ig-val"><b>Личный UUID</b> без ограничений по сайтам</div></div>
+            <div class="ig"><div class="ig-lbl">РЕФЕРАЛ</div><div class="ig-val">+<b>30 дней</b> за каждого приглашённого</div></div>
           </div>
         </div>
-
       </div>
     </div>
 
     <div id="prev" class="pg">
-      <div class="REV">
-        <div class="sec-lbl">отзывы пользователей</div>
-        <div style="text-align:center;padding:40px 0 20px;font-family:'Space Mono',monospace;font-size:11px;color:#2a3545;">пока нет отзывов</div>
-      </div>
+      <div class="sec-title">отзывы пользователей</div>
+      <div class="empty-state">пока нет отзывов</div>
     </div>
 
     <div id="ppric" class="pg">
-      <div class="PRIC">
-        <div class="sec-lbl">тарифы</div>
-        <div class="pgrid">
-          <div class="pc"><div class="pclbl">СТАРТ</div><div class="pcprice">99 ₽</div><div class="pcper">/мес</div><div class="pcf">50 ГБ<br>1 уст.<br>Для знакомства</div></div>
-          <div class="pc"><div class="pclbl">КОМФОРТ</div><div class="pcprice">179 ₽</div><div class="pcper">/мес</div><div class="pcf">120 ГБ<br>2 уст.<br>На каждый день</div></div>
-          <div class="pc"><div class="pclbl">ПЛЮС</div><div class="pcprice">219 ₽</div><div class="pcper">/мес</div><div class="pcf">250 ГБ<br>3 уст.<br>Выбирают чаще всего</div></div>
-          <div class="pc"><div class="pclbl">АКТИВ</div><div class="pcprice">279 ₽</div><div class="pcper">/мес</div><div class="pcf">350 ГБ<br>4 уст.<br>Для активного использования</div></div>
-          <div class="pc"><div class="pclbl">СЕМЬЯ</div><div class="pcprice">399 ₽</div><div class="pcper">/мес</div><div class="pcf">500 ГБ<br>5 уст.<br>Для семьи</div></div>
-        </div>
-        <div style="text-align:center;font-family:'Space Mono',monospace;font-size:9px;color:#1e2535;margin-top:4px;">CryptoBot · Telegram Stars · эквайринг в разработке</div>
+      <div class="sec-title">тарифы</div>
+      <div class="pgrid">
+        <div class="pc"><div class="pc-price">99₽</div><div class="pc-per">/мес</div><div class="pc-f">50 ГБ<br>1 уст.</div></div>
+        <div class="pc"><div class="pc-price">179₽</div><div class="pc-per">/мес</div><div class="pc-f">120 ГБ<br>2 уст.</div></div>
+        <div class="pc"><div class="pc-price">219₽</div><div class="pc-per">/мес</div><div class="pc-f">250 ГБ<br>3 уст.</div></div>
+        <div class="pc"><div class="pc-price">279₽</div><div class="pc-per">/мес</div><div class="pc-f">350 ГБ<br>4 уст.</div></div>
+        <div class="pc"><div class="pc-price">399₽</div><div class="pc-per">/мес</div><div class="pc-f">500 ГБ<br>5 уст.</div></div>
       </div>
     </div>
 
+    <div class="ft"><div class="ft-txt">Reality Protocol · github.io</div></div>
   </div>
-
-  <div class="FT">
-    <div class="ft" id="ft-right">github.io · Reality Protocol</div>
-  </div>
-</div></div>
 </div>
 
 <script>
-// ─── navigation ───────────────────────────────────────────
-function sp(id, btn) {
-  var ids = {home:'ph', rev:'prev', pric:'ppric'};
+var currentKey='';
+function sp(id,btn){
+  var ids={home:'ph',rev:'prev',pric:'ppric'};
   document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
-  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
-  document.getElementById(ids[id]).classList.add('on');
-  btn.classList.add('on');
+  document.querySelectorAll('.nt').forEach(function(b){b.classList.remove('on');});
+  document.getElementById(ids[id]).classList.add('on');btn.classList.add('on');
 }
-
-// ─── state ────────────────────────────────────────────────
-var currentKey = '';
-
-// ─── render key text with colored parts ───────────────────
-function renderKeyHTML(key) {
-  if (!key) return '<span style="color:#2a3545;">ключ недоступен</span>';
-  return key
-    .replace(/^(vless:\/\/)/, '<em>$1</em>')
-    .replace(/(@)/, '<em>$1</em>')
-    .replace(/(security=reality[^&"]*)/, '<em>$1</em>');
+function renderKeyHTML(key){
+  if(!key)return '<span style="color:var(--t4)">ключ недоступен</span>';
+  return key.replace(/^(vless:\/\/)/,'<em>$1</em>').replace(/(@)/,'<em>$1</em>').replace(/(security=reality[^&"]*)/,'<em>$1</em>');
 }
-
-// ─── generate real QR code ────────────────────────────────
-function renderQR(key) {
-  var container = document.getElementById('qr-container');
-  container.innerHTML = '';
-  if (!key) {
-    container.innerHTML = '<span style="font-family:Space Mono,monospace;font-size:8px;color:#2a3545;text-align:center;">нет ключа</span>';
-    return;
-  }
-  try {
-    new QRCode(container, {
-      text: key,
-      width: 104,
-      height: 104,
-      colorDark: '#0a0c10',
-      colorLight: '#eef0f5',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    container.innerHTML = '<span style="font-family:Space Mono,monospace;font-size:8px;color:#ff5555;text-align:center;padding:4px;">ошибка QR</span>';
-  }
+function renderQR(key){
+  var c=document.getElementById('qr-container');c.innerHTML='';
+  if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
+  try{new QRCode(c,{text:key,width:96,height:96,colorDark:'#0a0e1a',colorLight:'#eef2ff',correctLevel:QRCode.CorrectLevel.M});}
+  catch(e){}
 }
-
-// ─── load key.json ────────────────────────────────────────
-function loadKey() {
-  fetch('key.json?t=' + Date.now())
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
-    .then(function(data) {
-      currentKey = data.key || '';
-      var updatedAt = data.updated_at || '';
-
-      // key display
-      var keyEl = document.getElementById('key-display');
-      keyEl.innerHTML = renderKeyHTML(currentKey);
-
-      // qr code
+function loadKey(){
+  fetch('key.json?t='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(d){
+      currentKey=d.key||'';
+      document.getElementById('key-display').innerHTML=renderKeyHTML(currentKey);
       renderQR(currentKey);
-
-      // updated time
-      if (updatedAt) {
-        var d = new Date(updatedAt);
-        var hh = String(d.getHours()).padStart(2,'0');
-        var mm = String(d.getMinutes()).padStart(2,'0');
-        document.getElementById('updated-time').textContent = 'обновлён ' + hh + ':' + mm;
-      }
+      if(d.updated_at){var dt=new Date(d.updated_at);document.getElementById('updated-time').textContent=String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');}
     })
-    .catch(function(err) {
-      console.warn('key.json not found:', err);
-      // fallback — show placeholder
-      var keyEl = document.getElementById('key-display');
-      keyEl.innerHTML = '<span style="color:#2a3545;">ключ временно недоступен</span>';
-      document.getElementById('updated-time').textContent = 'нет данных';
-      document.getElementById('qr-container').innerHTML =
-        '<span style="font-family:Space Mono,monospace;font-size:8px;color:#2a3545;text-align:center;padding:8px;">ключ<br>не загружен</span>';
+    .catch(function(){
+      document.getElementById('key-display').innerHTML='<span style="color:var(--t4)">ключ временно недоступен</span>';
+      document.getElementById('updated-time').textContent='—';
+      document.getElementById('qr-container').innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;padding:8px;">нет данных</span>';
     });
 }
-
-// ─── copy button ──────────────────────────────────────────
-function copyKey() {
-  if (!currentKey) return;
-  var btn = document.getElementById('copy-btn');
-  navigator.clipboard.writeText(currentKey).then(function() {
+function copyKey(){
+  if(!currentKey)return;
+  var btn=document.getElementById('copy-btn');
+  var orig='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg> Скопировать ключ';
+  navigator.clipboard.writeText(currentKey).then(function(){
     btn.classList.add('copied');
-    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#3adb82" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Скопировано';
-    setTimeout(function() {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="#051a0e" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="#051a0e"/><rect x="1" y="3" width="9" height="11" rx="2" stroke="#3adb82" stroke-width="1.4"/></svg> Скопировать ключ';
-    }, 2000);
-  }).catch(function() {
-    // fallback for older browsers
-    var ta = document.createElement('textarea');
-    ta.value = currentKey;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.classList.add('copied');
-    btn.textContent = '✓ Скопировано';
-    setTimeout(function() {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="#051a0e" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="#051a0e"/><rect x="1" y="3" width="9" height="11" rx="2" stroke="#3adb82" stroke-width="1.4"/></svg> Скопировать ключ';
-    }, 2000);
+    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Скопировано';
+    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  }).catch(function(){
+    var ta=document.createElement('textarea');ta.value=currentKey;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    btn.classList.add('copied');btn.textContent='✓ Скопировано';
+    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=orig;},2000);
   });
 }
-
-// ─── init ─────────────────────────────────────────────────
 loadKey();
 </script>
-
 </body>
 </html>
