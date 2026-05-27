@@ -1,6 +1,5 @@
 {
-  "key": "vless://PLACEHOLDER_UUID@YOUR_SERVER_IP:443?security=reality&sni=dl.google.com&fp=chrome&pbk=YOUR_PUBLIC_KEY&type=tcp&flow=xtls-rprx-vision#NetVeil-Demo",
-  "updated_at": "2025-01-01T03:00:00Z",
-  "server": "nl-1",
-  "expires_at": "2025-01-02T03:00:00Z"
+  "key": "vless://66fe210b-47b2-493f-be96-c450f5788da8@31.76.114.166:443?security=reality&sni=dl.google.com&fp=chrome&pbk=1cOplRiWQtbXMr2nhWBEbT5B7_WBOdQregye9BsyH34&sid=a1b2c3d4&type=tcp&flow=xtls-rprx-vision#NetVeil-Demo",
+  "updated_at": "2026-05-27T03:00:00Z",
+  "server": "fi-1"
 }
