@@ -1,0 +1,6 @@
+{
+  "key": "vless://PLACEHOLDER_UUID@YOUR_SERVER_IP:443?security=reality&sni=dl.google.com&fp=chrome&pbk=YOUR_PUBLIC_KEY&type=tcp&flow=xtls-rprx-vision#NetVeil-Demo",
+  "updated_at": "2025-01-01T03:00:00Z",
+  "server": "nl-1",
+  "expires_at": "2025-01-02T03:00:00Z"
+}
