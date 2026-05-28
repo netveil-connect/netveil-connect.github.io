@@ -66,8 +66,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);}
 
 .qr-key-row{display:flex;gap:14px;align-items:flex-start;}
 .qr-wrap{display:flex;flex-direction:column;align-items:center;}
-.qr-box{width:108px;height:108px;min-width:108px;background:#eef2ff;border-radius:12px;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.qr-box canvas,.qr-box img{width:100%!important;height:100%!important;}
+.qr-box{width:108px;height:108px;min-width:108px;background:#eef2ff;border-radius:12px;padding:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.qr-box canvas,.qr-box img{width:100%!important;height:100%!important;display:block;}
 .qr-loading{display:flex;gap:4px;align-items:center;justify-content:center;width:100%;height:100%;}
 .ql{width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:ql 1.2s infinite;}
 .ql:nth-child(2){animation-delay:.15s;}
@@ -265,8 +265,8 @@ function renderKeyHTML(key){
   if(!key)return '<span style="color:var(--t4)">ключ недоступен</span>';
   return key.replace(/^(vless:\/\/)/,'<em>$1</em>').replace(/(@)/,'<em>$1</em>').replace(/(security=reality[^&"]*)/,'<em>$1</em>');
 }
-function renderQR(key){
-  var c=document.getElementById('qr-container');
+function renderQR(key, containerId, size){
+  var c=document.getElementById(containerId||'qr-container');
   if(!c)return;
   c.innerHTML='';
   if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
@@ -277,7 +277,7 @@ function renderQR(key){
     new QRious({
       element:canvas,
       value:safeKey,
-      size:256,
+      size:size||256,
       backgroundAlpha:1,
       background:'#ffffff',
       foreground:'#000000',
@@ -292,7 +292,7 @@ function showQR(){
   if(!currentKey)return;
   var modal=document.getElementById('qr-modal');
   modal.classList.add('open');
-  renderQR(currentKey);
+  renderQR(currentKey,'qr-container',256);
 }
 function closeQR(){
   document.getElementById('qr-modal').classList.remove('open');
