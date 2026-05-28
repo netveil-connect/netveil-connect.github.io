@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>NetVeil</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -272,7 +272,18 @@ function renderQR(key){
   if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
   try{
     var safeKey=key.split('#')[0];
-    new QRCode(c,{text:safeKey,width:256,height:256,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.L});
+    var canvas=document.createElement('canvas');
+    c.appendChild(canvas);
+    new QRious({
+      element:canvas,
+      value:safeKey,
+      size:256,
+      backgroundAlpha:1,
+      background:'#ffffff',
+      foreground:'#000000',
+      level:'L',
+      padding:10
+    });
   } catch(e){
     c.innerHTML='<span style="font-size:9px;color:var(--t4);">ошибка QR</span>';
   }
