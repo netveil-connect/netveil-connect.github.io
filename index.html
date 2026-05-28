@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>NetVeil</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -237,14 +238,12 @@ function renderKeyHTML(key){
 function renderQR(key){
   var c=document.getElementById('qr-container');c.innerHTML='';
   if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
-  var url='https://chart.googleapis.com/chart?chs=200x200&cht=qr&choe=UTF-8&chl='+encodeURIComponent(key);
-  var img=document.createElement('img');
-  img.src=url;
-  img.style.width='100%';
-  img.style.height='100%';
-  img.style.borderRadius='6px';
-  img.onerror=function(){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">ошибка QR</span>';};
-  c.appendChild(img);
+  try{
+    var safeKey=key.split('#')[0];
+    new QRCode(c,{text:safeKey,width:96,height:96,colorDark:'#0a0e1a',colorLight:'#eef2ff',correctLevel:QRCode.CorrectLevel.M});
+  } catch(e){
+    c.innerHTML='<span style="font-size:7px;color:var(--t4);text-align:center;padding:4px;word-break:break-all;">ошибка QR</span>';
+  }
 }
 function loadKey(){
   fetch('key.json?t='+Date.now())
