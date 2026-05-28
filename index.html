@@ -272,7 +272,7 @@ function renderQR(key){
   if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
   try{
     var safeKey=key.split('#')[0];
-    new QRCode(c,{text:safeKey,width:200,height:200,colorDark:'#0a0e1a',colorLight:'#f0f4ff',correctLevel:QRCode.CorrectLevel.M});
+    new QRCode(c,{text:safeKey,width:256,height:256,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.L});
   } catch(e){
     c.innerHTML='<span style="font-size:9px;color:var(--t4);">ошибка QR</span>';
   }
