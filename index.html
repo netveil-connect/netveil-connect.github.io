@@ -82,10 +82,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);}
 @keyframes sk{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
 /* PRIMARY BUTTON — cyan-blue gradient */
-.btn-copy{width:100%;margin-top:12px;background:var(--grad);border:none;border-radius:14px;padding:13px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 28px rgba(0,160,255,.25);}
-.btn-copy:hover{box-shadow:0 6px 36px rgba(0,160,255,.4);transform:translateY(-1px);}
-.btn-copy:active{transform:scale(.98);box-shadow:none;}
-.btn-copy.copied{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green);box-shadow:none;}
+
 
 /* TG CARD */
 .tg-card{background:var(--card);border:1px solid var(--b1);border-radius:18px;overflow:hidden;margin-bottom:10px;}
@@ -125,6 +122,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);}
 
 .ft{border-top:1px solid var(--b2);padding:12px 20px;display:flex;justify-content:flex-end;}
 .ft-txt{font-size:9px;color:var(--t4);}
+
+/* BTN ROW */
+.btn-row{display:flex;gap:8px;margin-top:12px;}
+.btn-copy{flex:1;background:var(--grad);border:none;border-radius:14px;padding:13px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;box-shadow:0 4px 28px rgba(0,160,255,.25);}
+.btn-copy:hover{box-shadow:0 6px 36px rgba(0,160,255,.4);transform:translateY(-1px);}
+.btn-copy:active{transform:scale(.98);box-shadow:none;}
+.btn-copy.copied{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green);box-shadow:none;}
+.btn-qr{background:rgba(255,255,255,.04);border:1px solid var(--b2);border-radius:14px;padding:13px 16px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
+.btn-qr:hover{border-color:rgba(0,160,255,.3);color:var(--cyan);}
+
+/* QR MODAL */
+.qr-modal{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
+.qr-modal.open{display:flex;}
+.qr-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);}
+.qr-modal-box{position:relative;z-index:1;background:linear-gradient(180deg,rgba(14,20,42,.99),rgba(10,14,30,.99));border:1px solid rgba(0,160,255,.15);border-radius:24px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px;width:280px;}
+.qr-modal-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:1px;text-transform:uppercase;}
+.qr-modal-box canvas,.qr-modal-box img{border-radius:12px;}
+.qr-modal-hint{font-size:10px;color:var(--t4);text-align:center;line-height:1.5;}
+.qr-close{background:rgba(255,255,255,.04);border:1px solid var(--b2);border-radius:10px;padding:8px 24px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;transition:all .15s;}
+.qr-close:hover{color:var(--t1);border-color:rgba(255,255,255,.1);}
 </style>
 </head>
 <body>
@@ -162,20 +179,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);}
           <div class="update-tag">обновлён <span id="updated-time">—</span></div>
         </div>
         <div class="qr-key-row">
-          <div class="qr-wrap">
-            <div class="qr-box" id="qr-container">
-              <div class="qr-loading"><div class="ql"></div><div class="ql"></div><div class="ql"></div></div>
-            </div>
-          </div>
           <div class="key-col">
             <div class="key-label">VLESS Reality</div>
             <div class="key-box" id="key-display"><div class="key-skeleton"></div></div>
           </div>
         </div>
-        <button class="btn-copy" id="copy-btn" onclick="copyKey()">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
-          Скопировать ключ
-        </button>
+        <div class="btn-row">
+          <button class="btn-copy" id="copy-btn" onclick="copyKey()">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
+            Скопировать ключ
+          </button>
+          <button class="btn-qr" onclick="showQR()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
+            QR
+          </button>
+        </div>
       </div>
 
       <div class="tg-card">
@@ -219,7 +237,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);}
       </div>
     </div>
 
-    <div class="ft"><div class="ft-txt">Reality Protocol · github.io</div></div>
+    
+<!-- QR MODAL -->
+<div class="qr-modal" id="qr-modal" onclick="handleModalClick(event)">
+  <div class="qr-overlay"></div>
+  <div class="qr-modal-box">
+    <div class="qr-modal-title">Сканировать ключ</div>
+    <div id="qr-container"></div>
+    <div class="qr-modal-hint">Отсканируйте камерой телефона<br>или QR-сканером в приложении</div>
+    <button class="qr-close" onclick="closeQR()">Закрыть</button>
+  </div>
+</div>
+
+<div class="ft"><div class="ft-txt">Reality Protocol · github.io</div></div>
   </div>
 </div>
 
@@ -236,14 +266,29 @@ function renderKeyHTML(key){
   return key.replace(/^(vless:\/\/)/,'<em>$1</em>').replace(/(@)/,'<em>$1</em>').replace(/(security=reality[^&"]*)/,'<em>$1</em>');
 }
 function renderQR(key){
-  var c=document.getElementById('qr-container');c.innerHTML='';
+  var c=document.getElementById('qr-container');
+  if(!c)return;
+  c.innerHTML='';
   if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
   try{
     var safeKey=key.split('#')[0];
-    new QRCode(c,{text:safeKey,width:96,height:96,colorDark:'#0a0e1a',colorLight:'#eef2ff',correctLevel:QRCode.CorrectLevel.M});
+    new QRCode(c,{text:safeKey,width:200,height:200,colorDark:'#0a0e1a',colorLight:'#f0f4ff',correctLevel:QRCode.CorrectLevel.M});
   } catch(e){
-    c.innerHTML='<span style="font-size:7px;color:var(--t4);text-align:center;padding:4px;word-break:break-all;">ошибка QR</span>';
+    c.innerHTML='<span style="font-size:9px;color:var(--t4);">ошибка QR</span>';
   }
+}
+function showQR(){
+  if(!currentKey)return;
+  var modal=document.getElementById('qr-modal');
+  modal.classList.add('open');
+  renderQR(currentKey);
+}
+function closeQR(){
+  document.getElementById('qr-modal').classList.remove('open');
+  document.getElementById('qr-container').innerHTML='';
+}
+function handleModalClick(e){
+  if(e.target.classList.contains('qr-overlay'))closeQR();
 }
 function loadKey(){
   fetch('key.json?t='+Date.now())
@@ -251,7 +296,6 @@ function loadKey(){
     .then(function(d){
       currentKey=d.key||'';
       document.getElementById('key-display').innerHTML=renderKeyHTML(currentKey);
-      renderQR(currentKey);
       if(d.updated_at){var dt=new Date(d.updated_at);document.getElementById('updated-time').textContent=String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');}
     })
     .catch(function(){
