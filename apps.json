@@ -1,0 +1,55 @@
+{
+  "instruction": [
+    "Скачать приложение для своей платформы",
+    "Скопировать ключ на вкладке Подключение",
+    "Вставить ключ в приложение через «Из буфера обмена»",
+    "Нажать Подключиться"
+  ],
+  "platforms": [
+    {
+      "id": "android",
+      "name": "Android",
+      "icon": "🤖",
+      "app": "Hiddify",
+      "app_sub": "Рекомендуем · все протоколы",
+      "btn": "Скачать",
+      "url": "https://play.google.com/store/apps/details?id=app.hiddify.com"
+    },
+    {
+      "id": "iphone",
+      "name": "iPhone",
+      "icon": "🍎",
+      "app": "Streisand",
+      "app_sub": "Рекомендуем · простой импорт по QR",
+      "btn": "App Store",
+      "url": "https://apps.apple.com/app/streisand/id6450534064"
+    },
+    {
+      "id": "windows",
+      "name": "Windows",
+      "icon": "🖥️",
+      "app": "Hiddify Next",
+      "app_sub": "Поддерживает все протоколы",
+      "btn": "Скачать",
+      "url": "https://github.com/hiddify/hiddify-app/releases"
+    },
+    {
+      "id": "macos",
+      "name": "macOS",
+      "icon": "💻",
+      "app": "Hiddify Next",
+      "app_sub": "Поддерживает все протоколы",
+      "btn": "Скачать",
+      "url": "https://github.com/hiddify/hiddify-app/releases"
+    },
+    {
+      "id": "linux",
+      "name": "Linux",
+      "icon": "🐧",
+      "app": "Hiddify Next",
+      "app_sub": "CLI или GUI версия",
+      "btn": "GitHub",
+      "url": "https://github.com/hiddify/hiddify-app/releases"
+    }
+  ]
+}
