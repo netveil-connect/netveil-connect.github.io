@@ -54,8 +54,11 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .tb:hover:not(.on){color:var(--t2);}
 
 /* ── PAGES ── */
-.pg{display:none;padding:16px 16px 100px;position:relative;z-index:1;}
-.pg.on{display:block;}
+.pg-wrap{position:relative;overflow:hidden;}
+.pg{display:none;padding:16px 16px 100px;position:relative;z-index:1;opacity:0;transform:translateX(40px);transition:opacity .25s ease,transform .25s ease;}
+.pg.on{display:block;opacity:1;transform:translateX(0);}
+.pg.slide-left{transform:translateX(-40px);}
+.pg.slide-right{transform:translateX(40px);}
 
 /* ── CARD BASE ── */
 .card{
@@ -333,7 +336,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
     <!-- Pricing teaser -->
     <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;margin-bottom:10px;">
       <div>
-        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px;">Подписка от 99 ₽ / мес</div>
+        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px;">Подписка от <span id="teaser-price">99</span> ₽ / мес</div>
         <div style="font-size:10px;color:var(--t3);">5 тарифов · до 5 устройств</div>
       </div>
       <button onclick="sp('pricing',document.querySelectorAll('.tb')[2])" style="background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.15);border-radius:10px;padding:8px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;">Тарифы →</button>
@@ -435,88 +438,22 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 
   <!-- ══ УСТАНОВКА ══ -->
   <div id="pg-install" class="pg">
+    <div class="slbl">инструкция</div>
+    <div id="install-steps" class="platform-card" style="margin-bottom:16px;">
+      <div style="text-align:center;font-size:11px;color:var(--t4);">загрузка...</div>
+    </div>
     <div class="slbl">выберите платформу</div>
-
-    <div class="platform-card">
-      <div class="platform-head"><div class="platform-name">Android</div><span style="font-size:22px;">🤖</span></div>
-      <div class="app-row">
-        <div style="flex:1;"><div class="app-name">Hiddify</div><div class="app-sub">Рекомендуем · все протоколы</div></div>
-        <button class="app-dl" onclick="window.open('https://play.google.com/store/apps/details?id=app.hiddify.com','_blank')">Скачать</button>
-      </div>
-      <div class="steps">
-        <div class="step"><div class="step-n">1</div>Установить Hiddify</div>
-        <div class="step"><div class="step-n">2</div>Скопировать ключ на вкладке Подключение</div>
-        <div class="step"><div class="step-n">3</div>Вставить через "Из буфера обмена"</div>
-        <div class="step"><div class="step-n">4</div>Нажать Подключиться</div>
-      </div>
-    </div>
-
-    <div class="platform-card">
-      <div class="platform-head"><div class="platform-name">iPhone</div><span style="font-size:22px;">🍎</span></div>
-      <div class="app-row">
-        <div style="flex:1;"><div class="app-name">Streisand</div><div class="app-sub">Рекомендуем · простой импорт</div></div>
-        <button class="app-dl" onclick="window.open('https://apps.apple.com/app/streisand/id6450534064','_blank')">App Store</button>
-      </div>
-      <div class="steps">
-        <div class="step"><div class="step-n">1</div>Скопировать ключ или открыть QR</div>
-        <div class="step"><div class="step-n">2</div>Импортировать в Streisand</div>
-        <div class="step"><div class="step-n">3</div>Подключиться</div>
-      </div>
-    </div>
-
-    <div class="platform-card">
-      <div class="platform-head"><div class="platform-name">Windows</div><span style="font-size:22px;">🖥️</span></div>
-      <div class="app-row">
-        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">Поддерживает все протоколы</div></div>
-        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">Скачать</button>
-      </div>
-    </div>
-
-    <div class="platform-card">
-      <div class="platform-head"><div class="platform-name">macOS</div><span style="font-size:22px;">💻</span></div>
-      <div class="app-row">
-        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">Поддерживает все протоколы</div></div>
-        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">Скачать</button>
-      </div>
-    </div>
-
-    <div class="platform-card">
-      <div class="platform-head"><div class="platform-name">Linux</div><span style="font-size:22px;">🐧</span></div>
-      <div class="app-row">
-        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">CLI или GUI версия</div></div>
-        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">GitHub</button>
-      </div>
+    <div id="install-platforms">
+      <div style="text-align:center;padding:20px;font-size:11px;color:var(--t4);">загрузка...</div>
     </div>
   </div>
 
   <!-- ══ ТАРИФЫ ══ -->
   <div id="pg-pricing" class="pg">
     <div class="slbl">выберите план</div>
-    <div class="price-grid">
-      <div class="price-card">
-        <div class="price-period">1 МЕСЯЦ</div>
-        <div class="price-amount">299 ₽</div>
-        <div class="price-per">&nbsp;</div>
-        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
-      </div>
-      <div class="price-card">
-        <div class="price-period">3 МЕСЯЦА</div>
-        <div class="price-amount">799 ₽</div>
-        <div class="price-per">267 ₽ / мес</div>
-        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
-      </div>
-      <div class="price-card">
-        <div class="price-period">6 МЕСЯЦЕВ</div>
-        <div class="price-amount">1499 ₽</div>
-        <div class="price-per">250 ₽ / мес</div>
-        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
-      </div>
-      <div class="price-card featured">
-        <div class="price-period" style="color:var(--cyan);">12 МЕСЯЦЕВ</div>
-        <div class="price-amount featured-val">2499 ₽</div>
-        <div class="price-per">208 ₽ / мес</div>
-        <button class="price-btn featured-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
-      </div>
+    <div class="price-grid" id="price-grid">
+      <!-- loaded from pricing.json -->
+      <div style="grid-column:1/-1;text-align:center;padding:20px;font-size:11px;color:var(--t4);">загрузка...</div>
     </div>
     <div style="background:rgba(255,255,255,.02);border:1px solid var(--border2);border-radius:12px;padding:14px;text-align:center;">
       <div style="font-size:11px;color:var(--t3);line-height:1.7;">Оплата через NetVeil Connect в Telegram<br>Безопасно и быстро</div>
@@ -616,6 +553,133 @@ function renderKeyHTML(key){
   return key.replace(/^(vless:\/\/)/,'<em>$1</em>').replace(/^(hysteria2:\/\/)/,'<em>$1</em>').replace(/(@)/,'<em>$1</em>');
 }
 
+
+
+function loadApps() {
+  fetch('apps.json?t=' + Date.now())
+    .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+    .then(function(d) {
+
+      // Render instruction steps
+      var stepsEl = document.getElementById('install-steps');
+      if (stepsEl && d.instruction) {
+        stepsEl.innerHTML = '';
+        var stepsWrap = document.createElement('div');
+        stepsWrap.className = 'steps';
+        d.instruction.forEach(function(text, i) {
+          var step = document.createElement('div');
+          step.className = 'step';
+          var num = document.createElement('div');
+          num.className = 'step-n';
+          num.textContent = i + 1;
+          var txt = document.createElement('span');
+          txt.textContent = text;
+          step.appendChild(num);
+          step.appendChild(txt);
+          stepsWrap.appendChild(step);
+        });
+        stepsEl.appendChild(stepsWrap);
+      }
+
+      // Render platform cards
+      var container = document.getElementById('install-platforms');
+      if (!container || !d.platforms) return;
+      container.innerHTML = '';
+
+      d.platforms.forEach(function(p) {
+        var card = document.createElement('div');
+        card.className = 'platform-card';
+
+        var head = document.createElement('div');
+        head.className = 'platform-head';
+        var name = document.createElement('div');
+        name.className = 'platform-name';
+        name.textContent = p.name;
+        var icon = document.createElement('span');
+        icon.style.fontSize = '22px';
+        icon.textContent = p.icon;
+        head.appendChild(name);
+        head.appendChild(icon);
+
+        var appRow = document.createElement('div');
+        appRow.className = 'app-row';
+        var appInfo = document.createElement('div');
+        appInfo.style.flex = '1';
+        var appName = document.createElement('div');
+        appName.className = 'app-name';
+        appName.textContent = p.app;
+        var appSub = document.createElement('div');
+        appSub.className = 'app-sub';
+        appSub.textContent = p.app_sub;
+        appInfo.appendChild(appName);
+        appInfo.appendChild(appSub);
+
+        var btn = document.createElement('button');
+        btn.className = 'app-dl';
+        btn.textContent = p.btn;
+        btn.onclick = (function(url) {
+          return function() { window.open(url, '_blank'); };
+        })(p.url);
+
+        appRow.appendChild(appInfo);
+        appRow.appendChild(btn);
+        card.appendChild(head);
+        card.appendChild(appRow);
+        container.appendChild(card);
+      });
+    })
+    .catch(function() {
+      var c = document.getElementById('install-platforms');
+      if (c) c.innerHTML = '<div style="text-align:center;padding:20px;font-size:11px;color:var(--t4);">недоступно</div>';
+    });
+}
+
+function loadPricing() {
+  fetch('pricing.json?t=' + Date.now())
+    .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+    .then(function(d) {
+      var tp = document.getElementById('teaser-price');
+      if (tp && d.teaser_from) tp.textContent = d.teaser_from;
+
+      var grid = document.getElementById('price-grid');
+      if (!grid || !d.plans) return;
+      grid.innerHTML = '';
+
+      d.plans.forEach(function(plan) {
+        var card = document.createElement('div');
+        card.className = plan.featured ? 'price-card featured' : 'price-card';
+
+        var periodEl = document.createElement('div');
+        periodEl.className = 'price-period';
+        if (plan.featured) periodEl.style.color = 'var(--cyan)';
+        periodEl.textContent = plan.period.toUpperCase();
+
+        var amountEl = document.createElement('div');
+        amountEl.className = plan.featured ? 'price-amount featured-val' : 'price-amount';
+        amountEl.textContent = plan.price + ' ₽';
+
+        var perEl = document.createElement('div');
+        perEl.className = 'price-per';
+        perEl.textContent = plan.per_month ? plan.per_month + ' ₽ / мес' : '';
+
+        var btn = document.createElement('button');
+        btn.className = plan.featured ? 'price-btn featured-btn' : 'price-btn';
+        btn.textContent = 'Купить';
+        btn.onclick = function() { window.open(d.bot_url, '_blank'); };
+
+        card.appendChild(periodEl);
+        card.appendChild(amountEl);
+        card.appendChild(perEl);
+        card.appendChild(btn);
+        grid.appendChild(card);
+      });
+    })
+    .catch(function() {
+      var grid = document.getElementById('price-grid');
+      if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;font-size:11px;color:var(--t4);">недоступно</div>';
+    });
+}
+
 function loadKeys(){
   fetch('key.json?t='+Date.now())
     .then(function(r){if(!r.ok)throw new Error();return r.json();})
@@ -675,13 +739,76 @@ function handleModalClick(e){if(e.target.classList.contains('qr-overlay'))closeQ
 function toggleFaq(el){el.parentElement.classList.toggle('open');}
 
 loadKeys();
+loadPricing();
+loadApps();
 
 // ── SWIPE NAVIGATION ──
 var tabs = ['connect','install','pricing','faq','referral'];
 var currentTab = 0;
 var touchStartX = 0;
 var touchStartY = 0;
-var touchEndX = 0;
+var isAnimating = false;
+
+function switchTab(newIdx, direction) {
+  if (isAnimating) return;
+  if (newIdx < 0 || newIdx >= tabs.length) return;
+  if (newIdx === currentTab) return;
+
+  isAnimating = true;
+  var oldPg = document.getElementById('pg-' + tabs[currentTab]);
+  var newPg = document.getElementById('pg-' + tabs[newIdx]);
+
+  // Prepare new page off-screen
+  newPg.style.display = 'block';
+  newPg.style.position = 'absolute';
+  newPg.style.top = '0';
+  newPg.style.left = '0';
+  newPg.style.right = '0';
+  newPg.style.opacity = '0';
+  newPg.style.transform = direction > 0 ? 'translateX(60px)' : 'translateX(-60px)';
+  newPg.style.transition = 'none';
+
+  // Force reflow
+  newPg.getBoundingClientRect();
+
+  // Animate old out
+  oldPg.style.transition = 'opacity .22s ease, transform .22s ease';
+  oldPg.style.opacity = '0';
+  oldPg.style.transform = direction > 0 ? 'translateX(-60px)' : 'translateX(60px)';
+
+  // Animate new in
+  newPg.style.transition = 'opacity .22s ease, transform .22s ease';
+  newPg.style.opacity = '1';
+  newPg.style.transform = 'translateX(0)';
+
+  setTimeout(function() {
+    // Cleanup old
+    oldPg.classList.remove('on');
+    oldPg.style.display = 'none';
+    oldPg.style.position = '';
+    oldPg.style.opacity = '';
+    oldPg.style.transform = '';
+    oldPg.style.transition = '';
+
+    // Cleanup new
+    newPg.classList.add('on');
+    newPg.style.position = '';
+    newPg.style.top = '';
+    newPg.style.left = '';
+    newPg.style.right = '';
+    newPg.style.opacity = '';
+    newPg.style.transform = '';
+    newPg.style.transition = '';
+
+    // Update tabs
+    document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('on');});
+    document.querySelectorAll('.tb')[newIdx].classList.add('on');
+
+    currentTab = newIdx;
+    isAnimating = false;
+    window.scrollTo(0, 0);
+  }, 240);
+}
 
 document.querySelector('.wrap').addEventListener('touchstart', function(e) {
   touchStartX = e.changedTouches[0].screenX;
@@ -689,30 +816,24 @@ document.querySelector('.wrap').addEventListener('touchstart', function(e) {
 }, {passive: true});
 
 document.querySelector('.wrap').addEventListener('touchend', function(e) {
-  touchEndX = e.changedTouches[0].screenX;
+  var touchEndX = e.changedTouches[0].screenX;
   var touchEndY = e.changedTouches[0].screenY;
   var dx = touchStartX - touchEndX;
   var dy = Math.abs(touchStartY - touchEndY);
 
-  // Only horizontal swipe (dx > 60px, horizontal > vertical)
-  if (Math.abs(dx) > 60 && Math.abs(dx) > dy * 1.5) {
-    if (dx > 0 && currentTab < tabs.length - 1) {
-      // swipe left → next tab
-      currentTab++;
-    } else if (dx < 0 && currentTab > 0) {
-      // swipe right → prev tab
-      currentTab--;
-    }
-    var btn = document.querySelectorAll('.tb')[currentTab];
-    sp(tabs[currentTab], btn);
+  if (Math.abs(dx) > 55 && Math.abs(dx) > dy * 1.5) {
+    if (dx > 0) switchTab(currentTab + 1, 1);
+    else switchTab(currentTab - 1, -1);
   }
 }, {passive: true});
 
-// Track current tab on sp()
+// Override sp() to use smooth transition
 var _origSp = sp;
 sp = function(id, btn) {
-  currentTab = tabs.indexOf(id);
-  _origSp(id, btn);
+  var newIdx = tabs.indexOf(id);
+  if (newIdx === currentTab) return;
+  var dir = newIdx > currentTab ? 1 : -1;
+  switchTab(newIdx, dir);
 };
 
 </script>
