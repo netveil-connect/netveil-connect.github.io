@@ -35,7 +35,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .bg-fog1{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(0,112,243,.09) 0%,transparent 65%);top:-120px;left:-100px;}
 .bg-fog2{position:absolute;width:400px;height:350px;background:radial-gradient(ellipse,rgba(124,91,244,.06) 0%,transparent 65%);top:300px;right:-80px;}
 .bg-fog3{position:absolute;width:300px;height:250px;background:radial-gradient(ellipse,rgba(0,200,232,.05) 0%,transparent 65%);bottom:100px;left:-60px;}
-.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 0%,transparent 100%);}
+
 
 /* ── STICKY HEADER ── */
 .header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);}
@@ -285,7 +285,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
     <div class="bg-fog1"></div>
     <div class="bg-fog2"></div>
     <div class="bg-fog3"></div>
-    <div class="bg-grid"></div>
+    
   </div>
 
   <div class="header">
@@ -451,7 +451,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   <!-- ══ ТАРИФЫ ══ -->
   <div id="pg-pricing" class="pg">
     <div class="slbl">устройства</div>
-    <div id="devices-row" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:14px;">
+    <div id="devices-row" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;padding-right:16px;scrollbar-width:none;margin-bottom:14px;-webkit-overflow-scrolling:touch;">
       <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
     </div>
 
@@ -708,7 +708,7 @@ function loadPricing() {
         d.devices.forEach(function(dev) {
           var btn = document.createElement('button');
           var active = dev.count === selDevices;
-          btn.style.cssText = 'flex:none;min-width:60px;border-radius:12px;padding:10px 8px;border:1px solid ' +
+          btn.style.cssText = 'flex:none;min-width:54px;border-radius:12px;padding:9px 6px;border:1px solid ' +
             (active ? 'rgba(0,200,232,.4)' : 'rgba(255,255,255,.06)') +
             ';background:' + (active ? 'rgba(0,200,232,.1)' : 'rgba(255,255,255,.02)') +
             ';cursor:pointer;font-family:Inter,sans-serif;transition:all .15s;';
