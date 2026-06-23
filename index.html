@@ -450,12 +450,33 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 
   <!-- ══ ТАРИФЫ ══ -->
   <div id="pg-pricing" class="pg">
-    <div class="slbl">выберите план</div>
-    <div class="price-grid" id="price-grid">
-      <!-- loaded from pricing.json -->
-      <div style="grid-column:1/-1;text-align:center;padding:20px;font-size:11px;color:var(--t4);">загрузка...</div>
+    <div class="slbl">устройства</div>
+    <div id="devices-row" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:14px;">
+      <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
     </div>
-    <div style="background:rgba(255,255,255,.02);border:1px solid var(--border2);border-radius:12px;padding:14px;text-align:center;">
+
+    <div class="slbl">срок подписки</div>
+    <div id="periods-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+      <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
+    </div>
+
+    <div id="price-summary" style="background:rgba(0,200,232,.06);border:1px solid rgba(0,200,232,.15);border-radius:14px;padding:16px;margin-bottom:12px;display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div>
+          <div style="font-size:11px;color:var(--t3);margin-bottom:3px;" id="summary-label">3 устройства · 1 месяц</div>
+          <div style="font-size:26px;font-weight:800;color:var(--t1);" id="summary-price">219 ₽</div>
+          <div style="font-size:10px;color:var(--t3);" id="summary-per"></div>
+        </div>
+        <div style="text-align:right;">
+          <div id="summary-badge" style="display:none;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--green);margin-bottom:6px;"></div>
+        </div>
+      </div>
+      <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:12px;padding:13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);">
+        Купить через Telegram
+      </button>
+    </div>
+
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--border2);border-radius:12px;padding:12px;text-align:center;">
       <div style="font-size:11px;color:var(--t3);line-height:1.7;">Оплата через NetVeil Connect в Telegram<br>Безопасно и быстро</div>
     </div>
   </div>
@@ -628,7 +649,8 @@ function loadApps() {
         container.appendChild(card);
       });
     })
-    .catch(function() {
+    .catch(function(e) {
+      console.error('loadApps error:', e);
       var c = document.getElementById('install-platforms');
       if (c) c.innerHTML = '<div style="text-align:center;padding:20px;font-size:11px;color:var(--t4);">недоступно</div>';
     });
@@ -638,45 +660,135 @@ function loadPricing() {
   fetch('pricing.json?t=' + Date.now())
     .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
     .then(function(d) {
+      // update teaser
       var tp = document.getElementById('teaser-price');
       if (tp && d.teaser_from) tp.textContent = d.teaser_from;
 
-      var grid = document.getElementById('price-grid');
-      if (!grid || !d.plans) return;
-      grid.innerHTML = '';
+      var selDevices = d.default_devices || 1;
+      var selPeriod = 1;
+      var botUrl = d.bot_url;
 
-      d.plans.forEach(function(plan) {
-        var card = document.createElement('div');
-        card.className = plan.featured ? 'price-card featured' : 'price-card';
+      function calcPrice() {
+        var dev = d.devices.find(function(x){ return x.count === selDevices; });
+        var per = d.periods.find(function(x){ return x.months === selPeriod; });
+        if (!dev || !per) return;
 
-        var periodEl = document.createElement('div');
-        periodEl.className = 'price-period';
-        if (plan.featured) periodEl.style.color = 'var(--cyan)';
-        periodEl.textContent = plan.period.toUpperCase();
+        var baseMonthly = dev.price_month;
+        var discount = per.discount || 0;
+        var monthly = Math.round(baseMonthly * (1 - discount / 100));
+        var total = monthly * per.months;
 
-        var amountEl = document.createElement('div');
-        amountEl.className = plan.featured ? 'price-amount featured-val' : 'price-amount';
-        amountEl.textContent = plan.price + ' ₽';
+        var summary = document.getElementById('price-summary');
+        summary.style.display = 'block';
 
-        var perEl = document.createElement('div');
-        perEl.className = 'price-per';
-        perEl.textContent = plan.per_month ? plan.per_month + ' ₽ / мес' : '';
+        document.getElementById('summary-label').textContent =
+          selDevices + ' ' + (selDevices === 1 ? 'устройство' : selDevices < 5 ? 'устройства' : 'устройств') +
+          ' · ' + per.label;
+        document.getElementById('summary-price').textContent = total + ' ₽';
 
-        var btn = document.createElement('button');
-        btn.className = plan.featured ? 'price-btn featured-btn' : 'price-btn';
-        btn.textContent = 'Купить';
-        btn.onclick = function() { window.open(d.bot_url, '_blank'); };
+        var perEl = document.getElementById('summary-per');
+        if (per.months > 1) {
+          perEl.textContent = monthly + ' ₽ / мес';
+        } else {
+          perEl.textContent = '';
+        }
 
-        card.appendChild(periodEl);
-        card.appendChild(amountEl);
-        card.appendChild(perEl);
-        card.appendChild(btn);
-        grid.appendChild(card);
-      });
+        var badge = document.getElementById('summary-badge');
+        if (discount) {
+          badge.style.display = 'inline-block';
+          badge.textContent = '−' + discount + '%';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+
+      function renderDevices() {
+        var row = document.getElementById('devices-row');
+        row.innerHTML = '';
+        d.devices.forEach(function(dev) {
+          var btn = document.createElement('button');
+          var active = dev.count === selDevices;
+          btn.style.cssText = 'flex:none;min-width:60px;border-radius:12px;padding:10px 8px;border:1px solid ' +
+            (active ? 'rgba(0,200,232,.4)' : 'rgba(255,255,255,.06)') +
+            ';background:' + (active ? 'rgba(0,200,232,.1)' : 'rgba(255,255,255,.02)') +
+            ';cursor:pointer;font-family:Inter,sans-serif;transition:all .15s;';
+          var countEl = document.createElement('div');
+          countEl.style.cssText = 'font-size:13px;font-weight:700;color:' + (active ? 'var(--cyan)' : 'var(--t1)');
+          countEl.textContent = dev.count + ' уст.';
+          var priceEl = document.createElement('div');
+          priceEl.style.cssText = 'font-size:10px;color:var(--t3);margin-top:3px;';
+          priceEl.textContent = dev.price_month + '₽/мес';
+          btn.appendChild(countEl);
+          btn.appendChild(priceEl);
+          btn.onclick = function() {
+            selDevices = dev.count;
+            renderDevices();
+            renderPeriods();
+            calcPrice();
+          };
+          row.appendChild(btn);
+        });
+      }
+
+      function renderPeriods() {
+        var grid = document.getElementById('periods-grid');
+        grid.innerHTML = '';
+        d.periods.forEach(function(per) {
+          var dev = d.devices.find(function(x){ return x.count === selDevices; });
+          var discount = per.discount || 0;
+          var monthly = Math.round(dev.price_month * (1 - discount / 100));
+          var total = monthly * per.months;
+          var active = per.months === selPeriod;
+
+          var card = document.createElement('div');
+          card.style.cssText = 'border-radius:14px;padding:14px;border:1px solid ' +
+            (active ? 'rgba(0,200,232,.35)' : 'rgba(255,255,255,.06)') +
+            ';background:' + (active ? 'rgba(0,200,232,.07)' : 'rgba(255,255,255,.02)') +
+            ';cursor:pointer;position:relative;overflow:hidden;transition:all .15s;';
+
+          if (discount) {
+            var badge = document.createElement('div');
+            badge.style.cssText = 'position:absolute;top:8px;right:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:2px 7px;font-size:9px;font-weight:700;color:var(--green);';
+            badge.textContent = '−' + discount + '%';
+            card.appendChild(badge);
+          }
+
+          var labelEl = document.createElement('div');
+          labelEl.style.cssText = 'font-size:11px;font-weight:600;color:' + (active ? 'var(--cyan)' : 'var(--t3)') + ';margin-bottom:5px;';
+          labelEl.textContent = per.label;
+
+          var totalEl = document.createElement('div');
+          totalEl.style.cssText = 'font-size:20px;font-weight:800;color:' + (active ? 'var(--t1)' : 'var(--t2)') + ';';
+          totalEl.textContent = total + ' ₽';
+
+          var perEl = document.createElement('div');
+          perEl.style.cssText = 'font-size:9px;color:var(--t4);margin-top:2px;';
+          perEl.textContent = per.months > 1 ? monthly + ' ₽/мес' : '';
+
+          card.appendChild(labelEl);
+          card.appendChild(totalEl);
+          card.appendChild(perEl);
+
+          card.onclick = function() {
+            selPeriod = per.months;
+            renderPeriods();
+            calcPrice();
+          };
+          grid.appendChild(card);
+        });
+      }
+
+      // Buy button
+      document.getElementById('buy-btn').onclick = function() {
+        window.open(botUrl, '_blank');
+      };
+
+      renderDevices();
+      renderPeriods();
+      calcPrice();
     })
-    .catch(function() {
-      var grid = document.getElementById('price-grid');
-      if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;font-size:11px;color:var(--t4);">недоступно</div>';
+    .catch(function(e) {
+      console.error('loadPricing error:', e);
     });
 }
 
@@ -694,7 +806,8 @@ function loadKeys(){
         if(ua){var dt=new Date(ua);document.getElementById('ut'+i).textContent=String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');}
       }
     })
-    .catch(function(){
+    .catch(function(e){
+      console.error('loadKeys error:', e);
       for(var i=1;i<=3;i++)document.getElementById('kd'+i).innerHTML='<span style="color:var(--t4)">недоступен</span>';
     });
 }
@@ -828,7 +941,6 @@ document.querySelector('.wrap').addEventListener('touchend', function(e) {
 }, {passive: true});
 
 // Override sp() to use smooth transition
-var _origSp = sp;
 sp = function(id, btn) {
   var newIdx = tabs.indexOf(id);
   if (newIdx === currentTab) return;
