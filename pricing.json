@@ -1,34 +1,18 @@
 {
-  "plans": [
-    {
-      "id": "1m",
-      "period": "1 месяц",
-      "price": 299,
-      "per_month": null,
-      "featured": false
-    },
-    {
-      "id": "3m",
-      "period": "3 месяца",
-      "price": 799,
-      "per_month": 267,
-      "featured": false
-    },
-    {
-      "id": "6m",
-      "period": "6 месяцев",
-      "price": 1499,
-      "per_month": 250,
-      "featured": false
-    },
-    {
-      "id": "12m",
-      "period": "12 месяцев",
-      "price": 2499,
-      "per_month": 208,
-      "featured": true
-    }
+  "devices": [
+    { "count": 1, "price_month": 99 },
+    { "count": 2, "price_month": 179 },
+    { "count": 3, "price_month": 219 },
+    { "count": 4, "price_month": 279 },
+    { "count": 5, "price_month": 399 }
   ],
+  "periods": [
+    { "months": 1,  "label": "1 мес",   "discount": null },
+    { "months": 3,  "label": "3 мес",   "discount": 17 },
+    { "months": 6,  "label": "6 мес",   "discount": 20 },
+    { "months": 12, "label": "1 год",   "discount": 26 }
+  ],
+  "default_devices": 3,
   "teaser_from": 99,
   "bot_url": "https://t.me/netveil_app_bot?start=src_github_demo"
 }
