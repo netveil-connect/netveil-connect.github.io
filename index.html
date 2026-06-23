@@ -5,353 +5,666 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>NetVeil</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:#0a0e1a;min-height:100%;}
-:root{
-  --bg:#0a0e1a;
-  --card:linear-gradient(180deg,rgba(14,20,42,.97),rgba(10,14,30,.99));
-  --b1:rgba(0,160,255,.1);
-  --b2:rgba(255,255,255,.05);
-  --b3:rgba(255,255,255,.03);
-  --cyan:#00d4ff;
-  --blue:#0066ff;
-  --grad:linear-gradient(135deg,#00d4ff,#0066ff);
-  --green:#22c55e;
-  --t1:#E8EDF8;
-  --t2:#B0C0DC;
-  --t3:#6A7A9A;
-  --t4:#384060;
-}
-body{font-family:'Inter',sans-serif;background:var(--bg);}
-.wrap{max-width:420px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;}
-.blob1{position:absolute;width:320px;height:240px;background:radial-gradient(ellipse,rgba(0,180,255,.07) 0%,transparent 70%);top:-60px;left:-60px;pointer-events:none;}
-.blob2{position:absolute;width:260px;height:200px;background:radial-gradient(ellipse,rgba(0,80,255,.05) 0%,transparent 70%);top:280px;right:-60px;pointer-events:none;}
-.inner{position:relative;z-index:1;}
+html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 
-/* NAV */
-.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;}
+:root{
+  --bg:#0d1117;
+  --card:rgba(22,28,45,0.95);
+  --card-b:rgba(30,38,58,0.98);
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(255,255,255,.035);
+  --cyan:#00c8e8;
+  --blue:#0070f3;
+  --grad:linear-gradient(135deg,#00c8e8 0%,#0070f3 100%);
+  --grad-soft:linear-gradient(135deg,rgba(0,200,232,.15),rgba(0,112,243,.08));
+  --green:#22c55e;
+  --purple:#7c5bf4;
+  --t1:#e2eaf8;
+  --t2:#8a9dc0;
+  --t3:#4a5878;
+  --t4:#252e42;
+}
+
+.wrap{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;}
+
+/* ── BACKGROUND DEPTH ── */
+.bg-layer{position:fixed;inset:0;max-width:480px;margin:0 auto;pointer-events:none;z-index:0;}
+.bg-fog1{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(0,112,243,.09) 0%,transparent 65%);top:-120px;left:-100px;}
+.bg-fog2{position:absolute;width:400px;height:350px;background:radial-gradient(ellipse,rgba(124,91,244,.06) 0%,transparent 65%);top:300px;right:-80px;}
+.bg-fog3{position:absolute;width:300px;height:250px;background:radial-gradient(ellipse,rgba(0,200,232,.05) 0%,transparent 65%);bottom:100px;left:-60px;}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 0%,transparent 100%);}
+
+/* ── STICKY HEADER ── */
+.header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:54px;padding:0 20px;}
 .logo{font-size:16px;font-weight:700;letter-spacing:-.4px;color:var(--t1);}
 .logo em{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal;}
-.nav-tabs{display:flex;background:rgba(255,255,255,.03);border:1px solid var(--b2);border-radius:12px;padding:3px;gap:2px;}
-.nt{background:transparent;border:none;padding:6px 11px;border-radius:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--t3);cursor:pointer;transition:all .15s;}
-.nt.on{background:rgba(0,160,255,.12);color:var(--cyan);border:1px solid rgba(0,160,255,.18);}
-
-.pg{display:none;padding:0 16px 32px;}
-.pg.on{display:block;}
-
-/* DEMO BADGE */
-.demo-badge{background:var(--card);border:1px solid var(--b1);border-radius:18px;padding:14px 16px;margin-bottom:10px;}
-.badge-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,180,255,.5);min-width:6px;}
-.badge-title{font-size:11px;font-weight:600;color:var(--t2);}
-.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.ac{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:500;}
-.ac.on{color:var(--green);}
-.ac.off{color:var(--t4);}
-.acdot{width:4px;height:4px;border-radius:50%;min-width:4px;}
-.ac.on .acdot{background:var(--green);}
-.ac.off .acdot{background:rgba(255,255,255,.07);}
-
-/* PROTOCOL CARDS */
-.proto-card{background:var(--card);border:1px solid var(--b1);border-radius:18px;padding:16px;margin-bottom:10px;}
-.proto-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.proto-name-row{display:flex;align-items:center;gap:8px;}
-.proto-icon{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;min-width:26px;}
-.proto-icon.reality{background:rgba(0,160,255,.12);}
-.proto-icon.grpc{background:rgba(124,91,244,.12);}
-.proto-icon.hy2{background:rgba(34,197,94,.12);}
-.proto-name{font-size:13px;font-weight:700;color:var(--t1);}
-.proto-sub{font-size:9px;color:var(--t4);font-weight:500;letter-spacing:.3px;}
-
-.status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.status-pill{display:flex;align-items:center;gap:6px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.15);border-radius:999px;padding:5px 11px;font-size:10px;font-weight:600;color:var(--green);}
+.status-pill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.14);border-radius:999px;padding:5px 11px;font-size:10px;font-weight:600;color:var(--green);}
 .sdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pp 2s infinite;}
 @keyframes pp{0%,100%{opacity:1;}50%{opacity:.25;}}
-.update-tag{font-size:10px;font-weight:500;color:var(--t4);}
+
+/* ── TABBAR ── */
+.tabbar{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;gap:0;}
+.tabbar::-webkit-scrollbar{display:none;}
+.tb{flex:none;background:transparent;border:none;border-bottom:2px solid transparent;padding:10px 14px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.tb.on{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tb:hover:not(.on){color:var(--t2);}
+
+/* ── PAGES ── */
+.pg{display:none;padding:16px 16px 100px;position:relative;z-index:1;}
+.pg.on{display:block;}
+
+/* ── CARD BASE ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:10px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.card::before{content:'';position:absolute;inset:0;border-radius:18px;background:radial-gradient(ellipse 120% 80% at 20% 0%,rgba(255,255,255,.025) 0%,transparent 60%);pointer-events:none;}
+
+/* ── HERO CARDS (trial + referral) ── */
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.hero-card{
+  border-radius:18px;
+  padding:18px 16px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 4px 28px rgba(0,0,0,.35);
+}
+.hero-card:hover{transform:translateY(-2px);}
+.hero-card::before{content:'';position:absolute;inset:0;border-radius:18px;background:radial-gradient(ellipse 140% 100% at 10% 0%,rgba(255,255,255,.06) 0%,transparent 60%);pointer-events:none;}
+.hero-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);border-radius:18px 18px 0 0;}
+
+.hero-trial{background:linear-gradient(145deg,#0f1f3d 0%,#0a1428 100%);border:1px solid rgba(0,200,232,.18);}
+.hero-trial .hero-glow{position:absolute;width:120px;height:120px;background:radial-gradient(circle,rgba(0,200,232,.18) 0%,transparent 70%);top:-20px;right:-20px;pointer-events:none;}
+.hero-ref{background:linear-gradient(145deg,#170f38 0%,#0f0a28 100%);border:1px solid rgba(124,91,244,.18);}
+.hero-ref .hero-glow{position:absolute;width:120px;height:120px;background:radial-gradient(circle,rgba(124,91,244,.18) 0%,transparent 70%);top:-20px;right:-20px;pointer-events:none;}
+
+.hero-icon{font-size:24px;margin-bottom:10px;display:block;}
+.hero-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;line-height:1.3;}
+.hero-items{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.hero-item{font-size:10px;color:var(--t2);display:flex;align-items:center;gap:5px;}
+.hero-item::before{content:'✓';color:var(--cyan);font-weight:700;font-size:9px;}
+.hero-ref .hero-item::before{color:var(--purple);}
+.hero-btn{width:100%;border:none;border-radius:10px;padding:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s;}
+.hero-btn:hover{opacity:.85;}
+.hero-trial .hero-btn{background:var(--grad);color:#fff;box-shadow:0 4px 16px rgba(0,160,224,.25);}
+.hero-ref .hero-btn{background:linear-gradient(135deg,#7c5bf4,#5b3fc4);color:#fff;box-shadow:0 4px 16px rgba(124,91,244,.25);}
+
+/* ── SECTION LABEL ── */
+.slbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.slbl::after{content:'';flex:1;height:1px;background:var(--border2);}
+
+/* ── TG LINKS ── */
+.tg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.tg-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
+  cursor:pointer;transition:all .2s;overflow:hidden;position:relative;
+  box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.tg-card::before{content:'';position:absolute;inset:0;border-radius:16px;background:radial-gradient(ellipse 140% 80% at 15% 0%,rgba(255,255,255,.02) 0%,transparent 60%);pointer-events:none;}
+.tg-card:hover{border-color:rgba(0,200,232,.2);transform:translateY(-1px);}
+.tg-icon-wrap{width:38px;height:38px;border-radius:11px;overflow:hidden;margin-bottom:10px;}
+.tg-icon-wrap img{width:100%;height:100%;object-fit:cover;}
+.tg-icon-wrap.ch{background:var(--grad);display:flex;align-items:center;justify-content:center;}
+.tg-name{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;}
+.tg-desc{font-size:10px;color:var(--t3);line-height:1.45;margin-bottom:12px;}
+.tg-btn{width:100%;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.14);border-radius:8px;padding:7px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;transition:all .15s;}
+.tg-btn:hover{background:rgba(0,200,232,.13);}
+
+/* ── ACCESS CARD ── */
+.access-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);}
+.access-head{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ac{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:500;padding:6px 8px;border-radius:8px;}
+.ac.on{color:var(--green);background:rgba(34,197,94,.05);}
+.ac.off{color:var(--t4);background:rgba(255,255,255,.015);}
+.acdot{width:4px;height:4px;border-radius:50%;min-width:4px;}
+.ac.on .acdot{background:var(--green);}
+.ac.off .acdot{background:var(--t4);}
+
+/* ── PROTO CARDS ── */
+.proto-card{
+  background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.proto-card::before{content:'';position:absolute;inset:0;border-radius:18px;background:radial-gradient(ellipse 120% 60% at 90% 0%,rgba(0,200,232,.04) 0%,transparent 60%);pointer-events:none;}
+.proto-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.proto-left{display:flex;align-items:center;gap:10px;}
+.proto-icon{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;min-width:34px;font-size:16px;position:relative;}
+.proto-icon.r{background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.15);}
+.proto-icon.x{background:rgba(0,112,243,.08);border:1px solid rgba(0,112,243,.15);}
+.proto-icon.h{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);}
+.proto-name{font-size:13px;font-weight:700;color:var(--t1);}
+.proto-sub{font-size:9px;color:var(--t3);margin-top:1px;}
+.update-tag{font-size:9px;color:var(--t4);}
 .update-tag span{color:var(--t3);}
 
-.key-box{background:rgba(255,255,255,.02);border:1px solid var(--b2);border-radius:10px;padding:9px 10px;font-family:'SF Mono','Fira Code',monospace;font-size:8.5px;color:var(--t3);word-break:break-all;line-height:1.85;min-height:48px;display:flex;align-items:center;margin-bottom:12px;}
+.key-box{
+  background:rgba(0,0,0,.25);border:1px solid var(--border2);border-radius:10px;
+  padding:9px 10px;font-family:'SF Mono','Fira Code',monospace;font-size:8px;
+  color:var(--t3);word-break:break-all;line-height:1.9;min-height:44px;
+  display:flex;align-items:center;margin-bottom:10px;
+}
 .key-box em{color:var(--cyan);font-style:normal;}
-.key-skeleton{width:100%;height:36px;background:linear-gradient(90deg,rgba(255,255,255,.02) 25%,rgba(0,160,255,.05) 50%,rgba(255,255,255,.02) 75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:6px;}
+.key-skeleton{width:100%;height:30px;background:linear-gradient(90deg,rgba(255,255,255,.02) 25%,rgba(0,200,232,.04) 50%,rgba(255,255,255,.02) 75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:6px;}
 @keyframes sk{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-/* BTN ROW */
 .btn-row{display:flex;gap:8px;}
-.btn-copy{flex:1;background:var(--grad);border:none;border-radius:14px;padding:12px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;box-shadow:0 4px 24px rgba(0,160,255,.2);}
-.btn-copy:hover{box-shadow:0 6px 32px rgba(0,160,255,.35);transform:translateY(-1px);}
+.btn-copy{
+  flex:1;background:var(--grad);border:none;border-radius:12px;padding:11px;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;
+  box-shadow:0 4px 20px rgba(0,160,224,.2),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-copy:hover{box-shadow:0 6px 28px rgba(0,160,224,.35),inset 0 1px 0 rgba(255,255,255,.15);transform:translateY(-1px);}
 .btn-copy:active{transform:scale(.98);box-shadow:none;}
-.btn-copy.copied{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green);box-shadow:none;}
-.btn-qr{background:rgba(255,255,255,.04);border:1px solid var(--b2);border-radius:14px;padding:12px 15px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
-.btn-qr:hover{border-color:rgba(0,160,255,.3);color:var(--cyan);}
+.btn-copy.copied{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);color:var(--green);box-shadow:none;}
+.btn-qr{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;
+  padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;color:var(--t2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.btn-qr:hover{border-color:rgba(0,200,232,.25);color:var(--cyan);}
 
-/* QR MODAL */
-.qr-modal{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
+/* ── QR MODAL ── */
+.qr-modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;}
 .qr-modal.open{display:flex;}
-.qr-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);}
-.qr-modal-box{position:relative;z-index:1;background:linear-gradient(180deg,rgba(14,20,42,.99),rgba(10,14,30,.99));border:1px solid rgba(0,160,255,.15);border-radius:24px;padding:16px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;width:340px;max-width:calc(100vw - 24px);}
-.qr-modal-title{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:1px;text-transform:uppercase;}
-.qr-modal-box canvas,.qr-modal-box img{border-radius:12px;display:block;margin:0 auto;}
+.qr-overlay{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);}
+.qr-box{
+  position:relative;z-index:1;
+  background:var(--card-b);border:1px solid var(--border);border-radius:24px;
+  padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px;
+  width:320px;max-width:calc(100vw - 32px);
+  box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.qr-title{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:1px;text-transform:uppercase;}
 #qr-container{display:flex;align-items:center;justify-content:center;width:100%;}
-.qr-modal-hint{font-size:10px;color:var(--t4);text-align:center;line-height:1.5;}
-.qr-close{background:rgba(255,255,255,.04);border:1px solid var(--b2);border-radius:10px;padding:8px 24px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;transition:all .15s;}
+#qr-container canvas{border-radius:12px;display:block;}
+.qr-hint{font-size:10px;color:var(--t4);text-align:center;line-height:1.6;}
+.qr-close{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:9px 30px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .15s;}
 .qr-close:hover{color:var(--t1);border-color:rgba(255,255,255,.1);}
 
-/* TG CARD */
-.tg-card{background:var(--card);border:1px solid var(--b1);border-radius:18px;overflow:hidden;margin-bottom:10px;}
-.tg-head{padding:12px 16px;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between;}
-.tg-lbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;}
-.tg-ch-btn{background:rgba(0,160,255,.06);border:1px solid rgba(0,160,255,.15);border-radius:8px;padding:6px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;}
-.tg-ch-btn:hover{border-color:rgba(0,180,255,.3);color:var(--cyan);}
-.tg-body{padding:12px 16px;}
+/* ── INSTALL ── */
+.platform-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);}
+.platform-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.platform-name{font-size:14px;font-weight:700;color:var(--t1);}
+.app-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.app-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px;}
+.app-sub{font-size:10px;color:var(--t3);}
+.app-dl{background:var(--grad);border:none;border-radius:8px;padding:7px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 2px 12px rgba(0,160,224,.2);}
+.steps{display:flex;flex-direction:column;gap:6px;}
+.step{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t2);}
+.step-n{width:20px;height:20px;border-radius:50%;background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.18);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--cyan);min-width:20px;}
 
-.webapp-card{background:rgba(0,160,255,.04);border:1px solid rgba(0,160,255,.1);border-radius:14px;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;margin-bottom:10px;}
-.webapp-card:hover{border-color:rgba(0,180,255,.22);background:rgba(0,160,255,.08);}
-.wa-icon{width:38px;height:38px;border-radius:10px;overflow:hidden;min-width:38px;}
-.wa-icon img{width:100%;height:100%;object-fit:cover;}
-.wa-info{flex:1;}
-.wa-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;}
-.wa-sub{font-size:10px;color:var(--t3);}
-.wa-arr{color:var(--t3);font-size:16px;}
+/* ── PRICING ── */
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.price-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.price-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 140% 80% at 50% 0%,rgba(255,255,255,.025) 0%,transparent 60%);pointer-events:none;}
+.price-card.featured{border-color:rgba(0,200,232,.25);background:linear-gradient(160deg,rgba(0,200,232,.06),rgba(0,112,243,.04));}
+.price-period{font-size:9px;font-weight:600;color:var(--t3);letter-spacing:.8px;margin-bottom:8px;}
+.price-amount{font-size:24px;font-weight:800;color:var(--t1);margin-bottom:1px;}
+.price-amount.featured-val{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.price-per{font-size:9px;color:var(--t4);margin-bottom:14px;}
+.price-btn{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s;}
+.price-btn:hover{background:rgba(0,200,232,.08);border-color:rgba(0,200,232,.2);color:var(--cyan);}
+.price-btn.featured-btn{background:var(--grad);border:none;color:#fff;box-shadow:0 4px 16px rgba(0,160,224,.25);}
+.price-btn.featured-btn:hover{box-shadow:0 6px 24px rgba(0,160,224,.4);}
 
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ig{background:var(--b3);border:1px solid var(--b2);border-radius:12px;padding:10px 12px;}
-.ig-lbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1px;margin-bottom:5px;}
-.ig-val{font-size:11px;color:var(--t3);line-height:1.55;}
-.ig-val b{color:var(--t2);font-weight:600;}
+/* ── FAQ ── */
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.faq-q{padding:14px 16px;font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:color .15s;}
+.faq-q:hover{color:var(--cyan);}
+.faq-arr{font-size:14px;color:var(--t4);transition:transform .2s;}
+.faq-item.open .faq-arr{transform:rotate(90deg);color:var(--cyan);}
+.faq-a{display:none;padding:0 16px 14px;font-size:11px;color:var(--t2);line-height:1.75;border-top:1px solid var(--border2);}
+.faq-item.open .faq-a{display:block;padding-top:12px;}
 
-/* REVIEWS */
-.sec-title{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--b2);}
-.empty-state{text-align:center;padding:48px 0;font-size:11px;color:var(--t4);}
+/* ── REFERRAL ── */
+.ref-hero{
+  background:linear-gradient(145deg,#160d35 0%,#0e0a28 100%);
+  border:1px solid rgba(124,91,244,.2);border-radius:18px;padding:22px;margin-bottom:10px;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.ref-hero::before{content:'';position:absolute;width:280px;height:280px;background:radial-gradient(circle,rgba(124,91,244,.15) 0%,transparent 65%);top:-80px;right:-60px;pointer-events:none;}
+.ref-hero::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(124,91,244,.3),transparent);}
+.ref-title{font-size:20px;font-weight:800;color:var(--t1);margin-bottom:6px;position:relative;}
+.ref-sub{font-size:12px;color:var(--t2);line-height:1.6;position:relative;margin-bottom:18px;}
+.ref-rewards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;position:relative;}
+.ref-reward{background:rgba(255,255,255,.04);border:1px solid rgba(124,91,244,.1);border-radius:12px;padding:12px 8px;text-align:center;}
+.ref-reward-val{font-size:17px;font-weight:800;color:var(--t1);margin-bottom:3px;}
+.ref-reward-lbl{font-size:9px;color:var(--t3);line-height:1.4;}
+.ref-btn{
+  width:100%;background:linear-gradient(135deg,#7c5bf4,#5b3fc4);border:none;border-radius:14px;
+  padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;
+  position:relative;box-shadow:0 4px 24px rgba(124,91,244,.3),inset 0 1px 0 rgba(255,255,255,.12);
+  transition:all .2s;
+}
+.ref-btn:hover{box-shadow:0 6px 32px rgba(124,91,244,.45),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(-1px);}
 
-/* PRICES */
-.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
-.pc{background:var(--b3);border:1px solid var(--b2);border-radius:10px;padding:10px 6px;text-align:center;transition:border-color .15s;}
-.pc:hover{border-color:rgba(0,160,255,.2);}
-.pc-price{font-size:14px;font-weight:700;color:var(--t1);}
-.pc-per{font-size:8px;color:var(--t4);margin-bottom:5px;margin-top:1px;}
-.pc-f{font-size:9px;color:var(--t3);line-height:1.6;}
+.ref-rules{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);}
+.ref-rule{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2);}
+.ref-rule:last-child{border-bottom:none;padding-bottom:0;}
+.ref-rule:first-child{padding-top:0;}
+.ref-rule-icon{font-size:18px;min-width:22px;margin-top:1px;}
+.ref-rule-text{font-size:12px;color:var(--t2);line-height:1.6;}
+.ref-rule-text b{color:var(--t1);}
 
-.ft{border-top:1px solid var(--b2);padding:12px 20px;display:flex;justify-content:flex-end;}
-.ft-txt{font-size:9px;color:var(--t4);}
+@media(max-width:440px){
+  .header-inner{height:50px;}
+  .tb{font-size:11px;padding:10px 10px;}
+  .hero-grid{grid-template-columns:1fr 1fr;}
+  .hero-title{font-size:12px;}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="blob1"></div><div class="blob2"></div>
-  <div class="inner">
 
-    <nav class="nav">
-      <div class="logo">Net<em>Veil Connect</em></div>
-      <div class="nav-tabs">
-        <button class="nt on" onclick="sp('home',this)">Подключение</button>
-        <button class="nt" onclick="sp('rev',this)">Отзывы</button>
-        <button class="nt" onclick="sp('pric',this)">Тарифы</button>
-      </div>
-    </nav>
-
-    <div id="ph" class="pg on">
-
-      <div class="demo-badge">
-        <div class="badge-top"><div class="badge-dot"></div><div class="badge-title">Демо-ключ — ограниченный доступ</div></div>
-        <div class="access-grid">
-          <div class="ac on"><div class="acdot"></div>Telegram</div>
-          <div class="ac on"><div class="acdot"></div>Новости / RSS</div>
-          <div class="ac on"><div class="acdot"></div>Почта / мессенджеры</div>
-          <div class="ac on"><div class="acdot"></div>Лёгкий веб-сёрфинг</div>
-          <div class="ac off"><div class="acdot"></div>YouTube / Netflix</div>
-          <div class="ac off"><div class="acdot"></div>TikTok / Instagram</div>
-          <div class="ac off"><div class="acdot"></div>Торренты</div>
-          <div class="ac off"><div class="acdot"></div>Стриминг видео</div>
-        </div>
-      </div>
-
-      <!-- VLESS REALITY -->
-      <div class="proto-card">
-        <div class="proto-head">
-          <div class="proto-name-row">
-            <div class="proto-icon reality">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l5 2.5v3.5C12 10.5 9.8 12.3 7 13c-2.8-.7-5-2.5-5-6V3.5L7 1z" stroke="#00d4ff" stroke-width="1.2" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div class="proto-name">VLESS Reality</div>
-              <div class="proto-sub">TCP · port 443</div>
-            </div>
-          </div>
-          <div class="update-tag">обновлён <span id="updated-time-1">—</span></div>
-        </div>
-        <div class="key-box" id="key-display-1"><div class="key-skeleton"></div></div>
-        <div class="btn-row">
-          <button class="btn-copy" id="copy-btn-1" onclick="copyKey(1)">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
-            Скопировать
-          </button>
-          <button class="btn-qr" onclick="showQR(1)">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
-            QR
-          </button>
-        </div>
-      </div>
-
-      <!-- VLESS gRPC -->
-      <div class="proto-card">
-        <div class="proto-head">
-          <div class="proto-name-row">
-            <div class="proto-icon grpc">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="4" width="5" height="5" rx="1" stroke="#7c5bf4" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="#7c5bf4" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="#7c5bf4" stroke-width="1.2"/><path d="M6 6.5h2M10 6v1.5" stroke="#7c5bf4" stroke-width="1.1"/></svg>
-            </div>
-            <div>
-              <div class="proto-name">VLESS gRPC</div>
-              <div class="proto-sub">HTTP/2 · port 2053</div>
-            </div>
-          </div>
-          <div class="update-tag">обновлён <span id="updated-time-2">—</span></div>
-        </div>
-        <div class="key-box" id="key-display-2"><div class="key-skeleton"></div></div>
-        <div class="btn-row">
-          <button class="btn-copy" id="copy-btn-2" onclick="copyKey(2)">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
-            Скопировать
-          </button>
-          <button class="btn-qr" onclick="showQR(2)">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
-            QR
-          </button>
-        </div>
-      </div>
-
-      <!-- HYSTERIA2 -->
-      <div class="proto-card">
-        <div class="proto-head">
-          <div class="proto-name-row">
-            <div class="proto-icon hy2">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 1L3 8h4l-1 5 6-7H8l1-5z" fill="#22c55e"/></svg>
-            </div>
-            <div>
-              <div class="proto-name">Hysteria2</div>
-              <div class="proto-sub">QUIC/UDP · port 8443</div>
-            </div>
-          </div>
-          <div class="update-tag">обновлён <span id="updated-time-3">—</span></div>
-        </div>
-        <div class="key-box" id="key-display-3"><div class="key-skeleton"></div></div>
-        <div class="btn-row">
-          <button class="btn-copy" id="copy-btn-3" onclick="copyKey(3)">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg>
-            Скопировать
-          </button>
-          <button class="btn-qr" onclick="showQR(3)">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
-            QR
-          </button>
-        </div>
-      </div>
-
-      <div class="tg-card">
-        <div class="tg-head">
-          <div class="tg-lbl">TELEGRAM</div>
-          <button class="tg-ch-btn" onclick="window.open('https://t.me/netveil_info','_blank')">
-            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm3.45 4.77l-1.17 5.5c-.09.4-.32.5-.65.31L8 9.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L4.9 8.77 3.28 8.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="currentColor"/></svg>
-            Канал
-          </button>
-        </div>
-        <div class="tg-body">
-          <div class="webapp-card" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
-            <div class="wa-icon"><img src="logo.png" alt="NetVeil"></div>
-            <div class="wa-info">
-              <div class="wa-title">NetVeil Connect</div>
-              <div class="wa-sub">тарифы · оплата · личный ключ</div>
-            </div>
-            <div class="wa-arr">›</div>
-          </div>
-          <div class="info-grid">
-            <div class="ig"><div class="ig-lbl">ПОСЛЕ ОПЛАТЫ</div><div class="ig-val"><b>Личный UUID</b> без ограничений по сайтам</div></div>
-            <div class="ig"><div class="ig-lbl">РЕФЕРАЛ</div><div class="ig-val">+<b>30 дней</b> за каждого приглашённого</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="prev" class="pg">
-      <div class="sec-title">отзывы пользователей</div>
-      <div class="empty-state">пока нет отзывов</div>
-    </div>
-
-    <div id="ppric" class="pg">
-      <div class="sec-title">тарифы</div>
-      <div class="pgrid">
-        <div class="pc"><div class="pc-price">99₽</div><div class="pc-per">/мес</div><div class="pc-f">50 ГБ<br>1 уст.</div></div>
-        <div class="pc"><div class="pc-price">179₽</div><div class="pc-per">/мес</div><div class="pc-f">120 ГБ<br>2 уст.</div></div>
-        <div class="pc"><div class="pc-price">219₽</div><div class="pc-per">/мес</div><div class="pc-f">250 ГБ<br>3 уст.</div></div>
-        <div class="pc"><div class="pc-price">279₽</div><div class="pc-per">/мес</div><div class="pc-f">350 ГБ<br>4 уст.</div></div>
-        <div class="pc"><div class="pc-price">399₽</div><div class="pc-per">/мес</div><div class="pc-f">500 ГБ<br>5 уст.</div></div>
-      </div>
-    </div>
-
-    <!-- QR MODAL -->
-    <div class="qr-modal" id="qr-modal" onclick="handleModalClick(event)">
-      <div class="qr-overlay"></div>
-      <div class="qr-modal-box">
-        <div class="qr-modal-title" id="qr-modal-title">NetVeil Connect</div>
-        <div id="qr-container"></div>
-        <div class="qr-modal-hint">Отсканируйте камерой телефона<br>или QR-сканером в приложении</div>
-        <button class="qr-close" onclick="closeQR()">Закрыть</button>
-      </div>
-    </div>
-
-    <div class="ft"><div class="ft-txt">Reality Protocol · github.io</div></div>
+  <div class="bg-layer">
+    <div class="bg-fog1"></div>
+    <div class="bg-fog2"></div>
+    <div class="bg-fog3"></div>
+    <div class="bg-grid"></div>
   </div>
-</div>
 
+  <div class="header">
+    <div class="header-inner">
+      <div class="logo">Net<em>Veil</em></div>
+      <div class="status-pill"><div class="sdot"></div>сервер активен</div>
+    </div>
+    <div class="tabbar">
+      <button class="tb on" onclick="sp('connect',this)">⚡ Подключение</button>
+      <button class="tb" onclick="sp('install',this)">📥 Установка</button>
+      <button class="tb" onclick="sp('pricing',this)">💳 Тарифы</button>
+      <button class="tb" onclick="sp('faq',this)">❓ FAQ</button>
+      <button class="tb" onclick="sp('referral',this)">👥 Реферал</button>
+    </div>
+  </div>
+
+  <!-- ══ ПОДКЛЮЧЕНИЕ ══ -->
+  <div id="pg-connect" class="pg on">
+
+    <!-- Hero: Trial + Referral -->
+    <div class="hero-grid">
+      <div class="hero-card hero-trial" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
+        <div class="hero-glow"></div>
+        <span class="hero-icon">🎁</span>
+        <div class="hero-title">Бесплатный доступ</div>
+        <div class="hero-items">
+          <div class="hero-item">3 дня</div>
+          <div class="hero-item">10 ГБ трафика</div>
+          <div class="hero-item">1 устройство</div>
+          <div class="hero-item">Все протоколы</div>
+        </div>
+        <button class="hero-btn">Начать →</button>
+      </div>
+      <div class="hero-card hero-ref" onclick="sp('referral',document.querySelectorAll('.tb')[4])">
+        <div class="hero-glow"></div>
+        <span class="hero-icon">👥</span>
+        <div class="hero-title">Приглашайте друзей</div>
+        <div class="hero-items">
+          <div class="hero-item">15% с оплаты</div>
+          <div class="hero-item">5% с продлений</div>
+          <div class="hero-item">Друг — 3 дня</div>
+          <div class="hero-item">Вывод на карту</div>
+        </div>
+        <button class="hero-btn" style="background:linear-gradient(135deg,#7c5bf4,#5b3fc4);box-shadow:0 4px 16px rgba(124,91,244,.25);">Подробнее →</button>
+      </div>
+    </div>
+
+    <!-- Pricing teaser -->
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;margin-bottom:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px;">Подписка от 299 ₽ / мес</div>
+        <div style="font-size:10px;color:var(--t3);">Безлимитный трафик · до 5 устройств</div>
+      </div>
+      <button onclick="sp('pricing',document.querySelectorAll('.tb')[2])" style="background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.15);border-radius:10px;padding:8px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;">Тарифы →</button>
+    </div>
+
+    <!-- TG Links -->
+    <div class="slbl">telegram</div>
+    <div class="tg-grid">
+      <div class="tg-card" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
+        <div class="tg-icon-wrap"><img src="logo.png" alt="NetVeil"></div>
+        <div class="tg-name">NetVeil Connect</div>
+        <div class="tg-desc">Получение доступа · Оплата · Поддержка</div>
+        <button class="tg-btn">Открыть →</button>
+      </div>
+      <div class="tg-card" onclick="window.open('https://t.me/netveil_info','_blank')">
+        <div class="tg-icon-wrap ch">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.45 5.27l-1.17 5.5c-.09.4-.32.5-.65.31L9 11.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L5.9 9.77 4.28 9.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="white"/></svg>
+        </div>
+        <div class="tg-name">NetVeil News</div>
+        <div class="tg-desc">Новости · Обновления · Уведомления</div>
+        <button class="tg-btn">Открыть →</button>
+      </div>
+    </div>
+
+    <!-- Access -->
+    <div class="access-card">
+      <div class="access-head">⚡ Аварийный доступ — резервные ключи</div>
+      <div class="access-grid">
+        <div class="ac on"><div class="acdot"></div>Telegram</div>
+        <div class="ac on"><div class="acdot"></div>Почта</div>
+        <div class="ac on"><div class="acdot"></div>Мессенджеры</div>
+        <div class="ac on"><div class="acdot"></div>Новости / RSS</div>
+        <div class="ac off"><div class="acdot"></div>Видео</div>
+        <div class="ac off"><div class="acdot"></div>Стриминг</div>
+        <div class="ac off"><div class="acdot"></div>Соцсети</div>
+        <div class="ac off"><div class="acdot"></div>Торренты</div>
+      </div>
+    </div>
+
+    <!-- Protocols -->
+    <div class="slbl">протоколы</div>
+
+    <div class="proto-card">
+      <div class="proto-head">
+        <div class="proto-left">
+          <div class="proto-icon r">🛡️</div>
+          <div><div class="proto-name">VLESS Reality</div><div class="proto-sub">TCP · 443</div></div>
+        </div>
+        <div class="update-tag">обновлён <span id="ut1">—</span></div>
+      </div>
+      <div class="key-box" id="kd1"><div class="key-skeleton"></div></div>
+      <div class="btn-row">
+        <button class="btn-copy" id="cb1" onclick="copyKey(1)">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать
+        </button>
+        <button class="btn-qr" onclick="showQR(1)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="proto-card">
+      <div class="proto-head">
+        <div class="proto-left">
+          <div class="proto-icon x">⚡</div>
+          <div><div class="proto-name">VLESS XHTTP</div><div class="proto-sub">HTTP/2 · 2053</div></div>
+        </div>
+        <div class="update-tag">обновлён <span id="ut2">—</span></div>
+      </div>
+      <div class="key-box" id="kd2"><div class="key-skeleton"></div></div>
+      <div class="btn-row">
+        <button class="btn-copy" id="cb2" onclick="copyKey(2)">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать
+        </button>
+        <button class="btn-qr" onclick="showQR(2)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="proto-card">
+      <div class="proto-head">
+        <div class="proto-left">
+          <div class="proto-icon h">🚀</div>
+          <div><div class="proto-name">Hysteria2</div><div class="proto-sub">QUIC/UDP · 443</div></div>
+        </div>
+        <div class="update-tag">обновлён <span id="ut3">—</span></div>
+      </div>
+      <div class="key-box" id="kd3"><div class="key-skeleton"></div></div>
+      <div class="btn-row">
+        <button class="btn-copy" id="cb3" onclick="copyKey(3)">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать
+        </button>
+        <button class="btn-qr" onclick="showQR(3)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ УСТАНОВКА ══ -->
+  <div id="pg-install" class="pg">
+    <div class="slbl">выберите платформу</div>
+
+    <div class="platform-card">
+      <div class="platform-head"><div class="platform-name">Android</div><span style="font-size:22px;">🤖</span></div>
+      <div class="app-row">
+        <div style="flex:1;"><div class="app-name">Hiddify</div><div class="app-sub">Рекомендуем · все протоколы</div></div>
+        <button class="app-dl" onclick="window.open('https://play.google.com/store/apps/details?id=app.hiddify.com','_blank')">Скачать</button>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div>Установить Hiddify</div>
+        <div class="step"><div class="step-n">2</div>Скопировать ключ на вкладке Подключение</div>
+        <div class="step"><div class="step-n">3</div>Вставить через "Из буфера обмена"</div>
+        <div class="step"><div class="step-n">4</div>Нажать Подключиться</div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-head"><div class="platform-name">iPhone</div><span style="font-size:22px;">🍎</span></div>
+      <div class="app-row">
+        <div style="flex:1;"><div class="app-name">Streisand</div><div class="app-sub">Рекомендуем · простой импорт</div></div>
+        <button class="app-dl" onclick="window.open('https://apps.apple.com/app/streisand/id6450534064','_blank')">App Store</button>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div>Скопировать ключ или открыть QR</div>
+        <div class="step"><div class="step-n">2</div>Импортировать в Streisand</div>
+        <div class="step"><div class="step-n">3</div>Подключиться</div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-head"><div class="platform-name">Windows</div><span style="font-size:22px;">🖥️</span></div>
+      <div class="app-row">
+        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">Поддерживает все протоколы</div></div>
+        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">Скачать</button>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-head"><div class="platform-name">macOS</div><span style="font-size:22px;">💻</span></div>
+      <div class="app-row">
+        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">Поддерживает все протоколы</div></div>
+        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">Скачать</button>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-head"><div class="platform-name">Linux</div><span style="font-size:22px;">🐧</span></div>
+      <div class="app-row">
+        <div style="flex:1;"><div class="app-name">Hiddify Next</div><div class="app-sub">CLI или GUI версия</div></div>
+        <button class="app-dl" onclick="window.open('https://github.com/hiddify/hiddify-app/releases','_blank')">GitHub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ТАРИФЫ ══ -->
+  <div id="pg-pricing" class="pg">
+    <div class="slbl">выберите план</div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-period">1 МЕСЯЦ</div>
+        <div class="price-amount">299 ₽</div>
+        <div class="price-per">&nbsp;</div>
+        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
+      </div>
+      <div class="price-card">
+        <div class="price-period">3 МЕСЯЦА</div>
+        <div class="price-amount">799 ₽</div>
+        <div class="price-per">267 ₽ / мес</div>
+        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
+      </div>
+      <div class="price-card">
+        <div class="price-period">6 МЕСЯЦЕВ</div>
+        <div class="price-amount">1499 ₽</div>
+        <div class="price-per">250 ₽ / мес</div>
+        <button class="price-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-period" style="color:var(--cyan);">12 МЕСЯЦЕВ</div>
+        <div class="price-amount featured-val">2499 ₽</div>
+        <div class="price-per">208 ₽ / мес</div>
+        <button class="price-btn featured-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Купить</button>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--border2);border-radius:12px;padding:14px;text-align:center;">
+      <div style="font-size:11px;color:var(--t3);line-height:1.7;">Оплата через NetVeil Connect в Telegram<br>Безопасно и быстро</div>
+    </div>
+  </div>
+
+  <!-- ══ FAQ ══ -->
+  <div id="pg-faq" class="pg">
+    <div class="slbl">частые вопросы</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Как получить доступ? <span class="faq-arr">›</span></div>
+      <div class="faq-a">Через Telegram-бота NetVeil Connect. Нажмите "Открыть" на вкладке Подключение — бот выдаст персональный ключ и инструкцию.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Что входит в пробный период? <span class="faq-arr">›</span></div>
+      <div class="faq-a">3 дня бесплатного доступа, 10 ГБ трафика, 1 устройство. После окончания можно оформить подписку.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">На каких устройствах работает? <span class="faq-arr">›</span></div>
+      <div class="faq-a">Android, iPhone, Windows, macOS, Linux. На вкладке Установка — инструкции для каждой платформы.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Что такое аварийные ключи? <span class="faq-arr">›</span></div>
+      <div class="faq-a">Если Telegram временно недоступен — используйте резервные ключи на этой странице. Работают для Telegram, почты, мессенджеров и новостей.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Какой протокол выбрать? <span class="faq-arr">›</span></div>
+      <div class="faq-a">VLESS Reality — универсальный, работает везде. VLESS XHTTP — альтернатива если Reality нестабилен. Hysteria2 — самый быстрый, идеален для звонков и стриминга.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Как получить поддержку? <span class="faq-arr">›</span></div>
+      <div class="faq-a">Напишите в NetVeil Connect в Telegram. Обычно отвечаем в течение нескольких часов.</div>
+    </div>
+  </div>
+
+  <!-- ══ РЕФЕРАЛ ══ -->
+  <div id="pg-referral" class="pg">
+    <div class="ref-hero">
+      <div class="ref-title">Зарабатывайте вместе с NetVeil</div>
+      <div class="ref-sub">Получайте кэшбэк рублями с каждой оплаты друга — навсегда</div>
+      <div class="ref-rewards">
+        <div class="ref-reward"><div class="ref-reward-val">15%</div><div class="ref-reward-lbl">с первой оплаты</div></div>
+        <div class="ref-reward"><div class="ref-reward-val">5%</div><div class="ref-reward-lbl">со всех продлений</div></div>
+        <div class="ref-reward"><div class="ref-reward-val">3 дня</div><div class="ref-reward-lbl">другу бесплатно</div></div>
+      </div>
+      <button class="ref-btn" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">Получить реферальную ссылку</button>
+    </div>
+
+    <div class="ref-rules">
+      <div class="slbl">условия программы</div>
+      <div class="ref-rule">
+        <div class="ref-rule-icon">💸</div>
+        <div class="ref-rule-text"><b>15% с первой оплаты</b> друга зачисляется на баланс сразу после оплаты</div>
+      </div>
+      <div class="ref-rule">
+        <div class="ref-rule-icon">🔁</div>
+        <div class="ref-rule-text"><b>5% со всех продлений</b> — пассивный доход пока друг пользуется сервисом</div>
+      </div>
+      <div class="ref-rule">
+        <div class="ref-rule-icon">🎁</div>
+        <div class="ref-rule-text">Ваш друг получает <b>3 дня бесплатного доступа</b> при регистрации по вашей ссылке</div>
+      </div>
+      <div class="ref-rule">
+        <div class="ref-rule-icon">💳</div>
+        <div class="ref-rule-text">Кэшбэк можно <b>вывести на карту от 500 ₽</b> или потратить на подписку</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR MODAL -->
+  <div class="qr-modal" id="qr-modal" onclick="handleModalClick(event)">
+    <div class="qr-overlay"></div>
+    <div class="qr-box">
+      <div class="qr-title" id="qr-title">Сканировать ключ</div>
+      <div id="qr-container"></div>
+      <div class="qr-hint">Отсканируйте камерой или QR-сканером в приложении</div>
+      <button class="qr-close" onclick="closeQR()">Закрыть</button>
+    </div>
+  </div>
+
+</div>
 <script>
-// currentKeys holds the 3 protocol keys, indexed by 1,2,3
-var currentKeys={1:'',2:'',3:''};
-var protoNames={1:'VLESS Reality',2:'VLESS gRPC',3:'Hysteria2'};
+var keys={1:'',2:'',3:''};
+var protoNames={1:'VLESS Reality',2:'VLESS XHTTP',3:'Hysteria2'};
+var origBtns={};
 
 function sp(id,btn){
-  var ids={home:'ph',rev:'prev',pric:'ppric'};
   document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
-  document.querySelectorAll('.nt').forEach(function(b){b.classList.remove('on');});
-  document.getElementById(ids[id]).classList.add('on');btn.classList.add('on');
+  document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('pg-'+id).classList.add('on');
+  if(btn)btn.classList.add('on');
+  window.scrollTo(0,0);
 }
 
 function renderKeyHTML(key){
   if(!key)return '<span style="color:var(--t4)">ключ недоступен</span>';
-  return key
-    .replace(/^(vless:\/\/)/,'<em>$1</em>')
-    .replace(/^(hysteria2:\/\/)/,'<em>$1</em>')
-    .replace(/(@)/,'<em>$1</em>')
-    .replace(/(security=reality[^&"]*)/,'<em>$1</em>');
+  return key.replace(/^(vless:\/\/)/,'<em>$1</em>').replace(/^(hysteria2:\/\/)/,'<em>$1</em>').replace(/(@)/,'<em>$1</em>');
 }
 
-function renderQR(key){
-  var c=document.getElementById('qr-container');
-  if(!c)return;
-  c.innerHTML='';
-  if(!key){c.innerHTML='<span style="font-size:9px;color:var(--t4);text-align:center;">нет ключа</span>';return;}
-  try{
-    var safeKey=key.split('#')[0];
-    var size=Math.min(window.innerWidth-56,308);
-    var canvas=document.createElement('canvas');
-    c.style.cssText='width:100%;display:flex;align-items:center;justify-content:center;';
-    canvas.style.cssText='display:block;max-width:100%;border-radius:10px;';
-    c.appendChild(canvas);
-    new QRious({element:canvas,value:safeKey,size:size,background:'#ffffff',foreground:'#000000',level:'L',padding:0});
-  } catch(e){
-    c.innerHTML='<span style="font-size:9px;color:var(--t4);">ошибка QR</span>';
-  }
+function loadKeys(){
+  fetch('key.json?t='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(d){
+      var map={1:'reality',2:'grpc',3:'hysteria2'};
+      for(var i=1;i<=3;i++){
+        var p=d.protocols&&d.protocols[map[i]];
+        var key=p?p.key:(i===1?d.key:'');
+        keys[i]=key||'';
+        document.getElementById('kd'+i).innerHTML=renderKeyHTML(keys[i]);
+        var ua=p?p.updated_at:d.updated_at;
+        if(ua){var dt=new Date(ua);document.getElementById('ut'+i).textContent=String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');}
+      }
+    })
+    .catch(function(){
+      for(var i=1;i<=3;i++)document.getElementById('kd'+i).innerHTML='<span style="color:var(--t4)">недоступен</span>';
+    });
+}
+
+function copyKey(idx){
+  var key=keys[idx];if(!key)return;
+  var btn=document.getElementById('cb'+idx);
+  if(!origBtns[idx])origBtns[idx]=btn.innerHTML;
+  navigator.clipboard.writeText(key).then(function(){
+    btn.classList.add('copied');
+    btn.innerHTML='<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Скопировано';
+    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=origBtns[idx];},2000);
+  }).catch(function(){
+    var ta=document.createElement('textarea');ta.value=key;ta.style.cssText='position:fixed;opacity:0;';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    btn.classList.add('copied');btn.textContent='✓ Скопировано';
+    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=origBtns[idx];},2000);
+  });
 }
 
 function showQR(idx){
-  var key=currentKeys[idx];
-  if(!key)return;
-  document.getElementById('qr-modal-title').textContent=protoNames[idx];
-  var modal=document.getElementById('qr-modal');
-  modal.classList.add('open');
-  renderQR(key);
+  var key=keys[idx];if(!key)return;
+  document.getElementById('qr-title').textContent=protoNames[idx];
+  document.getElementById('qr-modal').classList.add('open');
+  var c=document.getElementById('qr-container');c.innerHTML='';
+  var safeKey=key.split('#')[0];
+  var size=Math.min(window.innerWidth-80,280);
+  var canvas=document.createElement('canvas');
+  c.style.cssText='width:100%;display:flex;align-items:center;justify-content:center;';
+  c.appendChild(canvas);
+  try{new QRious({element:canvas,value:safeKey,size:size,background:'#ffffff',foreground:'#000000',level:'L',padding:0});}
+  catch(e){c.innerHTML='<span style="font-size:9px;color:var(--t4);">ошибка QR</span>';}
 }
 
 function closeQR(){
@@ -359,54 +672,9 @@ function closeQR(){
   document.getElementById('qr-container').innerHTML='';
 }
 
-function handleModalClick(e){
-  if(e.target.classList.contains('qr-overlay'))closeQR();
-}
+function handleModalClick(e){if(e.target.classList.contains('qr-overlay'))closeQR();}
 
-function loadKeys(){
-  fetch('key.json?t='+Date.now())
-    .then(function(r){if(!r.ok)throw new Error();return r.json();})
-    .then(function(d){
-      // expects d.protocols = {reality:{key,updated_at}, grpc:{...}, hysteria2:{...}}
-      var map={1:'reality',2:'grpc',3:'hysteria2'};
-      for(var i=1;i<=3;i++){
-        var p=d.protocols && d.protocols[map[i]];
-        var key=p?p.key:(i===1?d.key:''); // fallback to legacy single-key format for reality
-        currentKeys[i]=key||'';
-        document.getElementById('key-display-'+i).innerHTML=renderKeyHTML(currentKeys[i]);
-        var updatedAt=p?p.updated_at:d.updated_at;
-        if(updatedAt){
-          var dt=new Date(updatedAt);
-          document.getElementById('updated-time-'+i).textContent=String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
-        } else {
-          document.getElementById('updated-time-'+i).textContent='—';
-        }
-      }
-    })
-    .catch(function(){
-      for(var i=1;i<=3;i++){
-        document.getElementById('key-display-'+i).innerHTML='<span style="color:var(--t4)">ключ временно недоступен</span>';
-        document.getElementById('updated-time-'+i).textContent='—';
-      }
-    });
-}
-
-function copyKey(idx){
-  var key=currentKeys[idx];
-  if(!key)return;
-  var btn=document.getElementById('copy-btn-'+idx);
-  var orig='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,0.1)" stroke="currentColor" stroke-width="1.4"/></svg> Скопировать';
-  navigator.clipboard.writeText(key).then(function(){
-    btn.classList.add('copied');
-    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Скопировано';
-    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=orig;},2000);
-  }).catch(function(){
-    var ta=document.createElement('textarea');ta.value=key;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    btn.classList.add('copied');btn.textContent='✓ Скопировано';
-    setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=orig;},2000);
-  });
-}
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
 
 loadKeys();
 </script>
