@@ -675,6 +675,46 @@ function handleModalClick(e){if(e.target.classList.contains('qr-overlay'))closeQ
 function toggleFaq(el){el.parentElement.classList.toggle('open');}
 
 loadKeys();
+
+// ── SWIPE NAVIGATION ──
+var tabs = ['connect','install','pricing','faq','referral'];
+var currentTab = 0;
+var touchStartX = 0;
+var touchStartY = 0;
+var touchEndX = 0;
+
+document.querySelector('.wrap').addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+}, {passive: true});
+
+document.querySelector('.wrap').addEventListener('touchend', function(e) {
+  touchEndX = e.changedTouches[0].screenX;
+  var touchEndY = e.changedTouches[0].screenY;
+  var dx = touchStartX - touchEndX;
+  var dy = Math.abs(touchStartY - touchEndY);
+
+  // Only horizontal swipe (dx > 60px, horizontal > vertical)
+  if (Math.abs(dx) > 60 && Math.abs(dx) > dy * 1.5) {
+    if (dx > 0 && currentTab < tabs.length - 1) {
+      // swipe left → next tab
+      currentTab++;
+    } else if (dx < 0 && currentTab > 0) {
+      // swipe right → prev tab
+      currentTab--;
+    }
+    var btn = document.querySelectorAll('.tb')[currentTab];
+    sp(tabs[currentTab], btn);
+  }
+}, {passive: true});
+
+// Track current tab on sp()
+var _origSp = sp;
+sp = function(id, btn) {
+  currentTab = tabs.indexOf(id);
+  _origSp(id, btn);
+};
+
 </script>
 </body>
 </html>
