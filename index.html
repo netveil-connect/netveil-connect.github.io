@@ -460,7 +460,9 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
             <div style="font-size:14px;font-weight:700;color:var(--t1);" id="app-name">Hiddify</div>
             <div style="font-size:11px;color:var(--t3);" id="app-sub">Рекомендуем</div>
           </div>
-          <button id="app-dl-btn" style="margin-left:auto;background:var(--grad);border:none;border-radius:10px;padding:9px 16px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(0,160,224,.2);">Скачать</button>
+        </div>
+        <div id="app-dl-container" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;margin-bottom:2px;"></div>
+        <div style="display:none">
         </div>
         <div id="install-steps" style="display:flex;flex-direction:column;gap:7px;"></div>
       </div>
@@ -476,17 +478,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
     </div>
 
-    <!-- Promo code row -->
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);" onclick="togglePromo()">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:16px;">🎟️</span>
-        <span style="font-size:13px;font-weight:500;color:var(--t2);">Ввести промокод</span>
-      </div>
-      <span style="color:var(--t4);font-size:18px;" id="promo-arr">›</span>
-    </div>
-    <div id="promo-box" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:-10px;margin-bottom:16px;">
-      <input id="promo-input" type="text" placeholder="Введите промокод" style="width:100%;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--t1);outline:none;" />
-    </div>
 
     <!-- Period grid -->
     <div class="slbl">срок подписки</div>
@@ -508,7 +499,8 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         <span style="font-size:18px;font-weight:800;color:var(--t1);" id="summary-price">219 ₽</span>
       </div>
       <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:14px;padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;">
-        <span>💳</span><span id="buy-label">Оформить — 219 ₽</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm3.45 4.77l-1.17 5.5c-.09.4-.32.5-.65.31L8 9.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L4.9 8.77 3.28 8.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="white"/></svg>
+        Купить через Telegram
       </button>
       <div style="margin-top:10px;text-align:center;">
         <div style="font-size:10px;color:var(--t4);">🔒 Безопасно · отмена в любой момент</div>
@@ -648,15 +640,23 @@ function loadApps() {
         // Show app card
         var card = document.getElementById('app-card');
         card.style.display = 'block';
-        var appIcon = document.getElementById('app-icon');
-        if (p.svg) { appIcon.innerHTML = p.svg; appIcon.style.fontSize = ''; }
-        else { appIcon.textContent = p.icon || '📱'; }
+        document.getElementById('app-icon').textContent = p.icon || '📱';
         document.getElementById('app-name').textContent = p.app;
         document.getElementById('app-sub').textContent = p.app_sub;
 
-        var dlBtn = document.getElementById('app-dl-btn');
-        dlBtn.textContent = p.btn;
-        dlBtn.onclick = function() { window.open(p.url, '_blank'); };
+        // Render download buttons
+        var dlContainer = document.getElementById('app-dl-container');
+        if (dlContainer) {
+          dlContainer.innerHTML = '';
+          var links = p.downloads || [{label: p.btn, url: p.url}];
+          links.forEach(function(dl) {
+            var b = document.createElement('button');
+            b.style.cssText = 'background:var(--grad);border:none;border-radius:9px;padding:8px 14px;font-family:Inter,sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;box-shadow:0 3px 10px rgba(0,160,224,.2);';
+            b.textContent = dl.label;
+            b.onclick = (function(url){ return function(){ window.open(url,'_blank'); }; })(dl.url);
+            dlContainer.appendChild(b);
+          });
+        }
 
         renderSteps(idx);
       }
@@ -672,12 +672,8 @@ function loadApps() {
         btn.className = 'plat-btn';
 
         var iconEl = document.createElement('div');
-        iconEl.style.cssText = 'width:28px;height:28px;display:flex;align-items:center;justify-content:center;';
-        if (p.svg) {
-          iconEl.innerHTML = p.svg;
-        } else {
-          iconEl.textContent = p.icon || '📱';
-        }
+        iconEl.style.cssText = 'font-size:26px;line-height:1;';
+        iconEl.textContent = p.icon || '📱';
 
         var nameEl = document.createElement('div');
         nameEl.className = 'plat-name';
@@ -744,8 +740,7 @@ function loadPricing() {
 
         document.getElementById('summary-price').textContent = total + ' ₽';
 
-        var buyLabel = document.getElementById('buy-label');
-        if (buyLabel) buyLabel.textContent = 'Оформить — ' + total + ' ₽';
+
       }
 
       function renderDevices() {
