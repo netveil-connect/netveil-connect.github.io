@@ -181,6 +181,11 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .btn-qr:hover{border-color:rgba(0,200,232,.25);color:var(--cyan);}
+.plat-btn{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px 8px;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--t3);}
+.plat-btn:hover{border-color:rgba(0,200,232,.2);color:var(--t2);}
+.plat-btn.active{border-color:rgba(0,200,232,.4);background:rgba(0,200,232,.07);color:var(--cyan);}
+.plat-btn svg{display:block;}
+.plat-name{font-size:11px;font-weight:600;}
 
 /* ── QR MODAL ── */
 .qr-modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;}
@@ -637,15 +642,15 @@ function loadApps() {
         // Update grid selection
         var btns = document.querySelectorAll('#platform-grid .plat-btn');
         btns.forEach(function(b, i) {
-          b.style.borderColor = i === idx ? 'rgba(0,200,232,.4)' : 'rgba(255,255,255,.06)';
-          b.style.background = i === idx ? 'rgba(0,200,232,.08)' : 'rgba(255,255,255,.02)';
-          b.querySelector('.plat-name').style.color = i === idx ? 'var(--cyan)' : 'var(--t2)';
+          b.classList.toggle('active', i === idx);
         });
 
         // Show app card
         var card = document.getElementById('app-card');
         card.style.display = 'block';
-        document.getElementById('app-icon').textContent = p.icon;
+        var appIcon = document.getElementById('app-icon');
+        if (p.svg) { appIcon.innerHTML = p.svg; appIcon.style.fontSize = ''; }
+        else { appIcon.textContent = p.icon || '📱'; }
         document.getElementById('app-name').textContent = p.app;
         document.getElementById('app-sub').textContent = p.app_sub;
 
@@ -664,15 +669,19 @@ function loadApps() {
       d.platforms.forEach(function(p, idx) {
         var btn = document.createElement('button');
         btn.className = 'plat-btn';
-        btn.style.cssText = 'background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 8px;cursor:pointer;font-family:Inter,sans-serif;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px;';
+        btn.className = 'plat-btn';
 
         var iconEl = document.createElement('div');
-        iconEl.style.cssText = 'font-size:26px;';
-        iconEl.textContent = p.icon;
+        iconEl.style.cssText = 'width:28px;height:28px;display:flex;align-items:center;justify-content:center;';
+        if (p.svg) {
+          iconEl.innerHTML = p.svg;
+        } else {
+          iconEl.textContent = p.icon || '📱';
+        }
 
         var nameEl = document.createElement('div');
         nameEl.className = 'plat-name';
-        nameEl.style.cssText = 'font-size:11px;font-weight:600;color:var(--t2);';
+        nameEl.style.cssText = '';
         nameEl.textContent = p.name;
 
         btn.appendChild(iconEl);
