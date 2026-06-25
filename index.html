@@ -438,46 +438,76 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 
   <!-- ══ УСТАНОВКА ══ -->
   <div id="pg-install" class="pg">
-    <div class="slbl">инструкция</div>
-    <div id="install-steps" class="platform-card" style="margin-bottom:16px;">
-      <div style="text-align:center;font-size:11px;color:var(--t4);">загрузка...</div>
+
+    <!-- Platform grid -->
+    <div class="slbl">платформа</div>
+    <div id="platform-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+      <div style="grid-column:1/-1;text-align:center;padding:20px;font-size:11px;color:var(--t4);">загрузка...</div>
     </div>
-    <div class="slbl">выберите платформу</div>
-    <div id="install-platforms">
-      <div style="text-align:center;padding:20px;font-size:11px;color:var(--t4);">загрузка...</div>
+
+    <!-- App info card -->
+    <div id="app-card" style="display:none;">
+      <div class="slbl">приложение</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 20px rgba(0,0,0,.25);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <div style="width:44px;height:44px;background:var(--grad);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;" id="app-icon">📱</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1);" id="app-name">Hiddify</div>
+            <div style="font-size:11px;color:var(--t3);" id="app-sub">Рекомендуем</div>
+          </div>
+          <button id="app-dl-btn" style="margin-left:auto;background:var(--grad);border:none;border-radius:10px;padding:9px 16px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(0,160,224,.2);">Скачать</button>
+        </div>
+        <div id="install-steps" style="display:flex;flex-direction:column;gap:7px;"></div>
+      </div>
     </div>
+
   </div>
 
   <!-- ══ ТАРИФЫ ══ -->
   <div id="pg-pricing" class="pg">
-    <div class="slbl">устройства</div>
-    <div id="devices-row" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;padding-right:16px;scrollbar-width:none;margin-bottom:14px;-webkit-overflow-scrolling:touch;">
+
+    <!-- Devices row -->
+    <div id="devices-row" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;padding-right:4px;scrollbar-width:none;margin-bottom:16px;-webkit-overflow-scrolling:touch;">
       <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
     </div>
 
+    <!-- Promo code row -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.2);" onclick="togglePromo()">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:16px;">🎟️</span>
+        <span style="font-size:13px;font-weight:500;color:var(--t2);">Ввести промокод</span>
+      </div>
+      <span style="color:var(--t4);font-size:18px;" id="promo-arr">›</span>
+    </div>
+    <div id="promo-box" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:-10px;margin-bottom:16px;">
+      <input id="promo-input" type="text" placeholder="Введите промокод" style="width:100%;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--t1);outline:none;" />
+    </div>
+
+    <!-- Period grid -->
     <div class="slbl">срок подписки</div>
     <div id="periods-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
       <div style="text-align:center;font-size:11px;color:var(--t4);padding:10px;">загрузка...</div>
     </div>
 
-    <div id="price-summary" style="background:rgba(0,200,232,.06);border:1px solid rgba(0,200,232,.15);border-radius:14px;padding:16px;margin-bottom:12px;display:none;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="font-size:11px;color:var(--t3);margin-bottom:3px;" id="summary-label">3 устройства · 1 месяц</div>
-          <div style="font-size:26px;font-weight:800;color:var(--t1);" id="summary-price">219 ₽</div>
-          <div style="font-size:10px;color:var(--t3);" id="summary-per"></div>
-        </div>
-        <div style="text-align:right;">
-          <div id="summary-badge" style="display:none;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--green);margin-bottom:6px;"></div>
-        </div>
+    <!-- Summary -->
+    <div id="price-summary" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;display:none;box-shadow:0 4px 20px rgba(0,0,0,.3);">
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+        <span>🧾</span><span id="summary-label">3 устройства · 1 месяц</span>
       </div>
-      <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:12px;padding:13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);">
-        Купить через Telegram
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2);">
+        <span style="font-size:12px;color:var(--t3);">Новая подписка</span>
+        <span style="font-size:12px;font-weight:600;color:var(--t2);" id="summary-base-price"></span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;margin-bottom:4px;">
+        <span style="font-size:13px;font-weight:700;color:var(--t1);">К оплате</span>
+        <span style="font-size:18px;font-weight:800;color:var(--t1);" id="summary-price">219 ₽</span>
+      </div>
+      <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:14px;padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;">
+        <span>💳</span><span id="buy-label">Оформить — 219 ₽</span>
       </button>
-    </div>
-
-    <div style="background:rgba(255,255,255,.02);border:1px solid var(--border2);border-radius:12px;padding:12px;text-align:center;">
-      <div style="font-size:11px;color:var(--t3);line-height:1.7;">Оплата через NetVeil Connect в Telegram<br>Безопасно и быстро</div>
+      <div style="margin-top:10px;text-align:center;">
+        <div style="font-size:10px;color:var(--t4);">🔒 Безопасно · отмена в любой момент</div>
+      </div>
     </div>
   </div>
 
@@ -580,13 +610,12 @@ function loadApps() {
   fetch('apps.json?t=' + Date.now())
     .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
     .then(function(d) {
+      var selPlatform = 0;
 
-      // Render instruction steps
-      var stepsEl = document.getElementById('install-steps');
-      if (stepsEl && d.instruction) {
+      function renderSteps(platform) {
+        var stepsEl = document.getElementById('install-steps');
+        if (!stepsEl) return;
         stepsEl.innerHTML = '';
-        var stepsWrap = document.createElement('div');
-        stepsWrap.className = 'steps';
         d.instruction.forEach(function(text, i) {
           var step = document.createElement('div');
           step.className = 'step';
@@ -597,63 +626,80 @@ function loadApps() {
           txt.textContent = text;
           step.appendChild(num);
           step.appendChild(txt);
-          stepsWrap.appendChild(step);
+          stepsEl.appendChild(step);
         });
-        stepsEl.appendChild(stepsWrap);
       }
 
-      // Render platform cards
-      var container = document.getElementById('install-platforms');
-      if (!container || !d.platforms) return;
-      container.innerHTML = '';
+      function selectPlatform(idx) {
+        selPlatform = idx;
+        var p = d.platforms[idx];
 
-      d.platforms.forEach(function(p) {
-        var card = document.createElement('div');
-        card.className = 'platform-card';
+        // Update grid selection
+        var btns = document.querySelectorAll('#platform-grid .plat-btn');
+        btns.forEach(function(b, i) {
+          b.style.borderColor = i === idx ? 'rgba(0,200,232,.4)' : 'rgba(255,255,255,.06)';
+          b.style.background = i === idx ? 'rgba(0,200,232,.08)' : 'rgba(255,255,255,.02)';
+          b.querySelector('.plat-name').style.color = i === idx ? 'var(--cyan)' : 'var(--t2)';
+        });
 
-        var head = document.createElement('div');
-        head.className = 'platform-head';
-        var name = document.createElement('div');
-        name.className = 'platform-name';
-        name.textContent = p.name;
-        var icon = document.createElement('span');
-        icon.style.fontSize = '22px';
-        icon.textContent = p.icon;
-        head.appendChild(name);
-        head.appendChild(icon);
+        // Show app card
+        var card = document.getElementById('app-card');
+        card.style.display = 'block';
+        document.getElementById('app-icon').textContent = p.icon;
+        document.getElementById('app-name').textContent = p.app;
+        document.getElementById('app-sub').textContent = p.app_sub;
 
-        var appRow = document.createElement('div');
-        appRow.className = 'app-row';
-        var appInfo = document.createElement('div');
-        appInfo.style.flex = '1';
-        var appName = document.createElement('div');
-        appName.className = 'app-name';
-        appName.textContent = p.app;
-        var appSub = document.createElement('div');
-        appSub.className = 'app-sub';
-        appSub.textContent = p.app_sub;
-        appInfo.appendChild(appName);
-        appInfo.appendChild(appSub);
+        var dlBtn = document.getElementById('app-dl-btn');
+        dlBtn.textContent = p.btn;
+        dlBtn.onclick = function() { window.open(p.url, '_blank'); };
 
+        renderSteps(idx);
+      }
+
+      // Render platform grid
+      var grid = document.getElementById('platform-grid');
+      if (!grid || !d.platforms) return;
+      grid.innerHTML = '';
+
+      d.platforms.forEach(function(p, idx) {
         var btn = document.createElement('button');
-        btn.className = 'app-dl';
-        btn.textContent = p.btn;
-        btn.onclick = (function(url) {
-          return function() { window.open(url, '_blank'); };
-        })(p.url);
+        btn.className = 'plat-btn';
+        btn.style.cssText = 'background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 8px;cursor:pointer;font-family:Inter,sans-serif;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px;';
 
-        appRow.appendChild(appInfo);
-        appRow.appendChild(btn);
-        card.appendChild(head);
-        card.appendChild(appRow);
-        container.appendChild(card);
+        var iconEl = document.createElement('div');
+        iconEl.style.cssText = 'font-size:26px;';
+        iconEl.textContent = p.icon;
+
+        var nameEl = document.createElement('div');
+        nameEl.className = 'plat-name';
+        nameEl.style.cssText = 'font-size:11px;font-weight:600;color:var(--t2);';
+        nameEl.textContent = p.name;
+
+        btn.appendChild(iconEl);
+        btn.appendChild(nameEl);
+        btn.onclick = function() { selectPlatform(idx); };
+        grid.appendChild(btn);
       });
+
+      // Select first by default
+      selectPlatform(0);
     })
     .catch(function(e) {
       console.error('loadApps error:', e);
-      var c = document.getElementById('install-platforms');
-      if (c) c.innerHTML = '<div style="text-align:center;padding:20px;font-size:11px;color:var(--t4);">недоступно</div>';
     });
+}
+
+function togglePromo() {
+  var box = document.getElementById('promo-box');
+  var arr = document.getElementById('promo-arr');
+  if (box.style.display === 'none') {
+    box.style.display = 'block';
+    arr.style.transform = 'rotate(90deg)';
+    setTimeout(function(){ document.getElementById('promo-input').focus(); }, 100);
+  } else {
+    box.style.display = 'none';
+    arr.style.transform = '';
+  }
 }
 
 function loadPricing() {
@@ -677,29 +723,20 @@ function loadPricing() {
         var discount = per.discount || 0;
         var monthly = Math.round(baseMonthly * (1 - discount / 100));
         var total = monthly * per.months;
+        var baseTotal = baseMonthly * per.months;
 
-        var summary = document.getElementById('price-summary');
-        summary.style.display = 'block';
+        var devWord = selDevices === 1 ? 'устройство' : selDevices < 5 ? 'устройства' : 'устройств';
 
-        document.getElementById('summary-label').textContent =
-          selDevices + ' ' + (selDevices === 1 ? 'устройство' : selDevices < 5 ? 'устройства' : 'устройств') +
-          ' · ' + per.label;
+        document.getElementById('price-summary').style.display = 'block';
+        document.getElementById('summary-label').textContent = selDevices + ' ' + devWord + ' · ' + per.label;
+
+        var basePriceEl = document.getElementById('summary-base-price');
+        if (basePriceEl) basePriceEl.textContent = baseTotal + ' ₽';
+
         document.getElementById('summary-price').textContent = total + ' ₽';
 
-        var perEl = document.getElementById('summary-per');
-        if (per.months > 1) {
-          perEl.textContent = monthly + ' ₽ / мес';
-        } else {
-          perEl.textContent = '';
-        }
-
-        var badge = document.getElementById('summary-badge');
-        if (discount) {
-          badge.style.display = 'inline-block';
-          badge.textContent = '−' + discount + '%';
-        } else {
-          badge.style.display = 'none';
-        }
+        var buyLabel = document.getElementById('buy-label');
+        if (buyLabel) buyLabel.textContent = 'Оформить — ' + total + ' ₽';
       }
 
       function renderDevices() {
