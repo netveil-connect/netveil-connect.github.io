@@ -486,25 +486,11 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
     </div>
 
     <!-- Summary -->
-    <div id="price-summary" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;display:none;box-shadow:0 4px 20px rgba(0,0,0,.3);">
-      <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-        <span>🧾</span><span id="summary-label">3 устройства · 1 месяц</span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2);">
-        <span style="font-size:12px;color:var(--t3);">Новая подписка</span>
-        <span style="font-size:12px;font-weight:600;color:var(--t2);" id="summary-base-price"></span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;margin-bottom:4px;">
-        <span style="font-size:13px;font-weight:700;color:var(--t1);">К оплате</span>
-        <span style="font-size:18px;font-weight:800;color:var(--t1);" id="summary-price">219 ₽</span>
-      </div>
-      <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:14px;padding:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;">
+    <div id="price-summary" style="margin-bottom:12px;display:none;">
+      <button id="buy-btn" style="width:100%;background:var(--grad);border:none;border-radius:14px;padding:15px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(0,160,224,.25);display:flex;align-items:center;justify-content:center;gap:8px;">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm3.45 4.77l-1.17 5.5c-.09.4-.32.5-.65.31L8 9.5l-.96.93c-.11.1-.2.19-.4.19l.14-2.01 3.63-3.28c.16-.14-.03-.22-.24-.08L4.9 8.77 3.28 8.27c-.35-.11-.36-.35.07-.52l6.74-2.6c.29-.1.55.07.45.52h-.09z" fill="white"/></svg>
         Купить через Telegram
       </button>
-      <div style="margin-top:10px;text-align:center;">
-        <div style="font-size:10px;color:var(--t4);">🔒 Безопасно · отмена в любой момент</div>
-      </div>
     </div>
   </div>
 
@@ -733,12 +719,8 @@ function loadPricing() {
         var devWord = selDevices === 1 ? 'устройство' : selDevices < 5 ? 'устройства' : 'устройств';
 
         document.getElementById('price-summary').style.display = 'block';
-        document.getElementById('summary-label').textContent = selDevices + ' ' + devWord + ' · ' + per.label;
 
-        var basePriceEl = document.getElementById('summary-base-price');
-        if (basePriceEl) basePriceEl.textContent = baseTotal + ' ₽';
 
-        document.getElementById('summary-price').textContent = total + ' ₽';
 
 
       }
