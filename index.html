@@ -466,6 +466,19 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         </div>
         <div id="install-steps" style="display:flex;flex-direction:column;gap:7px;"></div>
       </div>
+
+      <!-- Routing config -->
+      <div id="routing-card" style="display:none;background:rgba(0,200,232,.04);border:1px solid rgba(0,200,232,.12);border-radius:14px;padding:14px;margin-top:10px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+          <div style="flex:1;">
+            <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;">🗺️ Маршрутизация</div>
+            <div style="font-size:10px;color:var(--t3);line-height:1.5;" id="routing-desc"></div>
+          </div>
+          <button id="routing-copy-btn" style="background:rgba(0,200,232,.1);border:1px solid rgba(0,200,232,.2);border-radius:9px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;min-width:80px;transition:all .2s;">
+            Добавить
+          </button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -613,6 +626,41 @@ function loadApps() {
         });
       }
 
+      // Show routing config card if available
+      function renderRoutingCard() {
+        var rc = d.routing_config;
+        var card = document.getElementById('routing-card');
+        if (!card) return;
+        if (!rc) { card.style.display = 'none'; return; }
+        card.style.display = 'block';
+        document.getElementById('routing-desc').textContent = rc.description || '';
+        var btn = document.getElementById('routing-copy-btn');
+        btn.onclick = function() {
+          navigator.clipboard.writeText(rc.value).then(function() {
+            btn.textContent = '✓ Скопировано';
+            btn.style.background = 'rgba(34,197,94,.1)';
+            btn.style.borderColor = 'rgba(34,197,94,.2)';
+            btn.style.color = 'var(--green)';
+            setTimeout(function() {
+              btn.textContent = 'Добавить';
+              btn.style.background = 'rgba(0,200,232,.1)';
+              btn.style.borderColor = 'rgba(0,200,232,.2)';
+              btn.style.color = 'var(--cyan)';
+            }, 2000);
+          }).catch(function() {
+            var ta = document.createElement('textarea');
+            ta.value = rc.value;
+            ta.style.cssText = 'position:fixed;opacity:0;';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.textContent = '✓ Скопировано';
+            setTimeout(function() { btn.textContent = 'Добавить'; }, 2000);
+          });
+        };
+      }
+
       function selectPlatform(idx) {
         selPlatform = idx;
         var p = d.platforms[idx];
@@ -645,6 +693,7 @@ function loadApps() {
         }
 
         renderSteps(idx);
+        renderRoutingCard();
       }
 
       // Render platform grid
