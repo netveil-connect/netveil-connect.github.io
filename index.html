@@ -364,52 +364,44 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       </div>
     </div>
 
-    <!-- Access -->
-    <div class="access-card">
-      <div class="access-head">⚡ Аварийный доступ — резервные ключи</div>
-      <div class="access-grid">
-        <div class="ac on"><div class="acdot"></div>Telegram</div>
-        <div class="ac on"><div class="acdot"></div>Почта</div>
-        <div class="ac on"><div class="acdot"></div>Мессенджеры</div>
-        <div class="ac on"><div class="acdot"></div>Новости / RSS</div>
-        <div class="ac off"><div class="acdot"></div>Видео</div>
-        <div class="ac off"><div class="acdot"></div>Стриминг</div>
-        <div class="ac off"><div class="acdot"></div>Соцсети</div>
-        <div class="ac off"><div class="acdot"></div>Торренты</div>
-      </div>
-    </div>
-
-    <!-- Reserve subscription -->
-    <div class="slbl">резервный доступ</div>
-
+    <!-- NetVeil Reserve -->
     <div class="proto-card">
       <div class="proto-head">
         <div class="proto-left">
           <div class="proto-icon r">🛟</div>
-          <div><div class="proto-name">NetVeil Reserve</div><div class="proto-sub">Reality · XHTTP · Hysteria2</div></div>
+          <div><div class="proto-name">NetVeil Reserve</div><div class="proto-sub">Бесплатная резервная подписка</div></div>
         </div>
-        <div class="update-tag">обновлено <span id="ut1">—</span></div>
       </div>
-      <div style="font-size:10px;color:var(--t3);line-height:1.6;margin-bottom:10px;">
-        Бесплатная резервная подписка — 3 протокола сразу. Подходит для экстренного подключения. Обновляется автоматически каждые 24 часа: после обновления нужно заново скопировать ссылку с этой страницы.
+
+      <div class="access-grid" style="margin-bottom:12px;">
+        <div class="ac on"><div class="acdot"></div>Telegram</div>
+        <div class="ac on"><div class="acdot"></div>Почта</div>
+        <div class="ac on"><div class="acdot"></div>Мессенджеры</div>
+        <div class="ac on"><div class="acdot"></div>Новости / RSS</div>
       </div>
-      <div class="key-box" id="kd1"><div class="key-skeleton"></div></div>
-      <div class="btn-row">
-        <button class="btn-copy" id="cb1" onclick="copyKey(1)">
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать
-        </button>
-        <button class="btn-qr" onclick="showQR(1)">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
-        </button>
+
+      <div style="border-top:1px solid var(--border2);padding-top:10px;margin-bottom:12px;">
+        <div style="font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.3px;margin-bottom:6px;">Reality · XHTTP · Hysteria2</div>
+        <div style="font-size:10px;color:var(--t3);line-height:1.6;">
+          Обновляется каждые 24 часа. После обновления просто получите новую подписку на этой странице.
+        </div>
       </div>
+
+      <button class="btn-copy" id="cb1" onclick="copyKey(1)" style="width:100%;">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать подписку
+      </button>
     </div>
 
-    <div style="background:rgba(124,91,244,.05);border:1px solid rgba(124,91,244,.15);border-radius:14px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:11px;font-weight:700;color:var(--t1);margin-bottom:8px;">💎 Хотите без ежедневного обновления?</div>
-      <div style="font-size:10px;color:var(--t2);line-height:1.6;margin-bottom:10px;">
-        ✓ Автообновление &nbsp;&nbsp; ✓ Безлимитный трафик &nbsp;&nbsp; ✓ До 5 устройств &nbsp;&nbsp; ✓ Все серверы
+    <!-- NetVeil Premium -->
+    <div style="background:linear-gradient(145deg,rgba(0,200,232,.08),rgba(0,112,243,.05));border:1px solid rgba(0,200,232,.2);border-radius:18px;padding:18px;margin-bottom:10px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);">
+      <div style="font-size:14px;font-weight:800;color:var(--t1);margin-bottom:12px;">💎 NetVeil Premium</div>
+      <div class="hero-items" style="margin-bottom:16px;">
+        <div class="hero-item">Автообновление</div>
+        <div class="hero-item">Безлимитный трафик</div>
+        <div class="hero-item">До 5 устройств</div>
+        <div class="hero-item">Все серверы</div>
       </div>
-      <button onclick="sp('pricing',document.querySelectorAll('.tb')[2])" style="width:100%;background:linear-gradient(135deg,#7c5bf4,#5b3fc4);border:none;border-radius:10px;padding:10px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;cursor:pointer;">Перейти к тарифам →</button>
+      <button onclick="sp('pricing',document.querySelectorAll('.tb')[2])" style="width:100%;background:var(--grad);border:none;border-radius:10px;padding:11px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(0,160,224,.3);">Перейти к тарифам →</button>
     </div>
 
   </div>
@@ -496,7 +488,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       <div class="faq-a">Android, iPhone, Windows, macOS, Linux. На вкладке Установка — инструкции для каждой платформы.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Что такое аварийные ключи? <span class="faq-arr">›</span></div>
+      <div class="faq-q" onclick="toggleFaq(this)">Что такое NetVeil Reserve? <span class="faq-arr">›</span></div>
       <div class="faq-a">Если Telegram временно недоступен — используйте резервную подписку NetVeil Reserve на этой странице. Работает для Telegram, почты, мессенджеров и новостей.</div>
     </div>
     <div class="faq-item">
@@ -841,15 +833,10 @@ function loadKeys(){
   fetch('demo-link.txt?t='+Date.now())
     .then(function(r){if(!r.ok)throw new Error();return r.text();})
     .then(function(text){
-      var subUrl=text.trim();
-      keys[1]=subUrl;
-      document.getElementById('kd1').innerHTML=renderKeyHTML(subUrl);
-      var now=new Date();
-      document.getElementById('ut1').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+      keys[1]=text.trim();
     })
     .catch(function(e){
       console.error('loadKeys error:', e);
-      document.getElementById('kd1').innerHTML='<span style="color:var(--t4)">недоступен</span>';
     });
 }
 
