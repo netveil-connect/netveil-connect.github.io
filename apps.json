@@ -27,7 +27,7 @@
       "id": "iphone",
       "name": "iPhone",
       "icon": "🍎",
-      "app": "Happ",
+      "app": "Happ/Incy",
       "app_sub": "Рекомендуем · простой импорт",
       "downloads": [
         {
@@ -57,7 +57,7 @@
       "id": "macos",
       "name": "macOS",
       "icon": "💻",
-      "app": "Happ",
+      "app": "Happ/Incy",
       "app_sub": "App Store или DMG",
       "downloads": [
         {
