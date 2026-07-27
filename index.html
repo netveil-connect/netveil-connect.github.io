@@ -335,20 +335,24 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       <div style="text-align:center;font-size:10px;color:var(--t3);margin-top:8px;">Подписка от 99 ₽/мес</div>
     </div>
     
-    <!-- TG Links (стек, один за другим) -->
+    <!-- TG Links (компактный стек) -->
     <div class="slbl">telegram</div>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;">
-      <div class="tg-card" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
-        <div class="tg-icon-wrap"><img src="logo.png" alt="NetVeil"></div>
-        <div class="tg-name">NetVeil Connect</div>
-        <div class="tg-desc">Получение доступа · Оплата · Поддержка</div>
-        <button class="tg-btn">Открыть →</button>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
+        <div style="width:38px;height:38px;border-radius:11px;overflow:hidden;flex-shrink:0;"><img src="logo.png" alt="NetVeil" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px;">NetVeil Connect</div>
+          <div style="font-size:10px;color:var(--t3);">Получение доступа · Оплата · Поддержка</div>
+        </div>
+        <button style="background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.14);border-radius:8px;padding:7px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;">Открыть →</button>
       </div>
-      <div class="tg-card" onclick="window.open('https://t.me/netveil_info','_blank')">
-        <div class="tg-icon-wrap"><img src="news_logo.png" alt="NetVeil News"></div>
-        <div class="tg-name">NetVeil News</div>
-        <div class="tg-desc">Новости · Обновления · Уведомления</div>
-        <button class="tg-btn">Открыть →</button>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);" onclick="window.open('https://t.me/netveil_info','_blank')">
+        <div style="width:38px;height:38px;border-radius:11px;overflow:hidden;flex-shrink:0;"><img src="news_logo.png" alt="NetVeil News" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px;">NetVeil News</div>
+          <div style="font-size:10px;color:var(--t3);">Новости · Обновления · Уведомления</div>
+        </div>
+        <button style="background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.14);border-radius:8px;padding:7px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;">Открыть →</button>
       </div>
     </div>
     
