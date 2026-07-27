@@ -332,12 +332,12 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         <div class="hero-item">Все серверы</div>
       </div>
       <button onclick="sp('pricing',document.querySelectorAll('.tb')[2])" style="width:100%;background:var(--grad);border:none;border-radius:10px;padding:11px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(0,160,224,.3);">Перейти к тарифам →</button>
-      <div style="text-align:center;font-size:10px;color:var(--t3);margin-top:8px;">Подписка от 99р\мес</div>
+      <div style="text-align:center;font-size:10px;color:var(--t3);margin-top:8px;">Подписка от 99 ₽/мес</div>
     </div>
-
-    <!-- TG Links -->
+    
+    <!-- TG Links (стек, один за другим) -->
     <div class="slbl">telegram</div>
-    <div class="tg-grid">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;">
       <div class="tg-card" onclick="window.open('https://t.me/netveil_app_bot?start=src_github_demo','_blank')">
         <div class="tg-icon-wrap"><img src="logo.png" alt="NetVeil"></div>
         <div class="tg-name">NetVeil Connect</div>
@@ -351,7 +351,10 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         <button class="tg-btn">Открыть →</button>
       </div>
     </div>
-
+    
+    <!-- Divider -->
+    <div style="height:1px;background:var(--border2);margin:14px 0 10px;"></div>
+    
     <!-- Referral bottom link -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 0;">
       <div style="font-size:11px;color:var(--t3);">Приглашайте друзей — процент с их оплаты</div>
