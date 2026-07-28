@@ -21,6 +21,7 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   --grad-soft:linear-gradient(135deg,rgba(0,200,232,.15),rgba(0,112,243,.08));
   --green:#22c55e;
   --purple:#7c5bf4;
+  --red:#ef4444;
   --t1:#e2eaf8;
   --t2:#8a9dc0;
   --t3:#4a5878;
@@ -170,6 +171,21 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .plat-btn.active{border-color:rgba(0,200,232,.4);background:rgba(0,200,232,.07);color:var(--cyan);}
 .plat-btn svg{display:block;}
 .plat-name{font-size:11px;font-weight:600;}
+/* ── UNAVAILABLE OVERLAY ── */
+.proto-card.is-unavailable{opacity:.55;filter:grayscale(.4);}
+.proto-card.is-unavailable .btn-row,
+.proto-card.is-unavailable a{pointer-events:none;}
+.unavail-banner{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(239,68,68,.12);
+  border:1px solid rgba(239,68,68,.4);
+  border-radius:10px;
+  padding:9px 12px;
+  margin-bottom:12px;
+  font-size:11px;font-weight:700;color:var(--red);
+  letter-spacing:.2px;
+}
+.unavail-banner .dot{width:6px;height:6px;border-radius:50%;background:var(--red);min-width:6px;animation:pp 1.4s infinite;}
 /* ── QR MODAL ── */
 .qr-modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;}
 .qr-modal.open{display:flex;}
@@ -297,8 +313,12 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       <a href="#" onclick="event.stopPropagation();sp('install',document.querySelectorAll('.tb')[1]);return false;" style="display:block;text-align:center;font-size:10px;color:var(--t3);text-decoration:none;margin-top:8px;">Как установить →</a>
     </div>
 
-    <!-- NetVeil Reserve -->
-    <div class="proto-card">
+    <!-- NetVeil Reserve (ВРЕМЕННО НЕДОСТУПНО) -->
+    <div class="proto-card is-unavailable">
+      <div class="unavail-banner">
+        <span class="dot"></span>
+        Временно не доступно. Ведутся технические работы
+      </div>
       <div class="proto-head">
         <div class="proto-left">
           <div class="proto-icon r">🛟</div>
@@ -310,10 +330,10 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         <div class="hero-item" style="font-size:11px;">Заходить на сайт раз в день за новой ссылкой</div>
       </div>
       <div class="btn-row">
-        <button class="btn-copy" id="cb1" onclick="copyKey(1)">
+        <button class="btn-copy" id="cb1" onclick="copyKey(1)" disabled>
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="9" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="3" width="9" height="11" rx="2" fill="rgba(255,255,255,.08)" stroke="currentColor" stroke-width="1.4"/></svg>Скопировать ссылку
         </button>
-        <button class="btn-qr" onclick="showQR(1)">
+        <button class="btn-qr" onclick="showQR(1)" disabled>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="11.5" y="2.5" width="2" height="2" fill="currentColor"/><rect x="2.5" y="11.5" width="2" height="2" fill="currentColor"/><path d="M10 10h2v2h-2zM12 12h2v2h-2zM10 12h1v1h-1zM12 10h1v1h-1z" fill="currentColor"/></svg>
         </button>
       </div>
