@@ -1,9 +1,6 @@
 {
   "instruction": [
     "Скачать приложение для своей платформы",
-    "Скопировать ключ на вкладке Подключение",
-    "Вставить ключ в приложение через «Из буфера обмена»",
-    "Нажать Подключиться"
     "Скопировать конфигурацию Маршрутизации {routing_configs}. Вставить её «в приложении» через «Из буфера обмена»",
     "Скопировать ключ на вкладке «Подключение»",
     "Вставить ключ «в приложении» через «Из буфера обмена»",
@@ -42,15 +39,36 @@
       "id": "iphone",
       "name": "iPhone",
       "icon": "🍎",
-      "app": "Happ/Incy",
       "app": "Happ / Incy",
       "app_sub": "Рекомендуем · простой импорт",
       "downloads": [
         {
+          "label": "App Store Global",
+          "url": "https://apps.apple.com/us/app/happ-proxy-utility/id6504287215"
+        },
+        {
+          "label": "App Store RU",
+          "url": "https://apps.apple.com/ru/app/incy/id6756943388"
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "name": "Windows",
+      "icon": "🖥️",
+      "app": "Happ",
+      "app_sub": "Поддерживает все протоколы",
+      "downloads": [
+        {
+          "label": "x64 .exe",
+          "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe"
+        }
+      ]
+    },
+    {
       "id": "macos",
       "name": "macOS",
       "icon": "💻",
-      "app": "Happ/Incy",
       "app": "Happ / Incy",
       "app_sub": "App Store или DMG",
       "downloads": [
