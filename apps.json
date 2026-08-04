@@ -1,11 +1,14 @@
 {
   "instruction": [
     "Скачать приложение для своей платформы",
-    "Скопировать конфигурацию Маршрутизации {ROUTING_BUTTONS}. Вставить её «в приложении» через «Из буфера обмена»",
+    "Скопировать ключ на вкладке Подключение",
+    "Вставить ключ в приложение через «Из буфера обмена»",
+    "Нажать Подключиться"
+    "Скопировать конфигурацию Маршрутизации {routing_configs}. Вставить её «в приложении» через «Из буфера обмена»",
     "Скопировать ключ на вкладке «Подключение»",
     "Вставить ключ «в приложении» через «Из буфера обмена»",
-    "Нажать «Подключиться»"
-  ],
+    "Нажать «Подключиться»"  ],
+  
   "routing_configs": [
     {
       "label": "Happ",
@@ -16,62 +19,95 @@
       "value": "incy://routing/onadd/eyJOYW1lIjoiUm9zY29tVlBOIiwiR2xvYmFsUHJveHkiOiJ0cnVlIiwiUmVtb3RlRE5TVHlwZSI6IkRvSCIsIlJlbW90ZUROU0RvbWFpbiI6Imh0dHBzOi8vOC44LjguOC9kbnMtcXVlcnkiLCJSZW1vdGVETlNJUCI6IjguOC44LjgiLCJEb21lc3RpY0ROU1R5cGUiOiJEb0giLCJEb21lc3RpY0ROU0RvbWFpbiI6Imh0dHBzOi8vNzcuODguOC44L2Rucy1xdWVyeSIsIkRvbWVzdGljRE5TSVAiOiI3Ny44OC44LjgiLCJEbnNIb3N0cyI6eyJsa2ZsMi5uYWxvZy5ydSI6IjIxMy4yNC42NC4xNzUiLCJsa25wZC5uYWxvZy5ydSI6IjIxMy4yNC42NC4xODEifSwiRGlyZWN0U2l0ZXMiOlsiZ2Vvc2l0ZTpwcml2YXRlIiwiZ2Vvc2l0ZTpjYXRlZ29yeS1ydSIsImdlb3NpdGU6d2hpdGVsaXN0IiwiZ2Vvc2l0ZTptaWNyb3NvZnQiLCJnZW9zaXRlOmFwcGxlIiwiZ2Vvc2l0ZTplcGljZ2FtZXMiLCJnZW9zaXRlOnJpb3QiLCJnZW9zaXRlOmVzY2FwZWZyb210YXJrb3YiLCJnZW9zaXRlOnN0ZWFtIiwiZ2Vvc2l0ZTp0d2l0Y2giLCJnZW9zaXRlOnBpbnRlcmVzdCIsImdlb3NpdGU6ZmFjZWl0Il0sIkRpcmVjdElwIjpbImdlb2lwOnByaXZhdGUiLCJnZW9pcDpkaXJlY3QiXSwiUHJveHlTaXRlcyI6WyJnZW9zaXRlOmdvb2dsZS1wbGF5IiwiZ2Vvc2l0ZTpnaXRodWIiLCJnZW9zaXRlOnR3aXRjaC1hZHMiLCJnZW9zaXRlOnlvdXR1YmUiLCJnZW9zaXRlOnRlbGVncmFtIl0sIlByb3h5SXAiOltdLCJCbG9ja1NpdGVzIjpbImdlb3NpdGU6d2luLXNweSIsImdlb3NpdGU6dG9ycmVudCIsImdlb3NpdGU6Y2F0ZWdvcnktYWRzIl0sIkJsb2NrSXAiOltdLCJHZW9pcHVybCI6Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9oeWRyYXBvbmlxdWUvcm9zY29tdnBuLWdlb2lwQDIwMjYwNDE2MDUzNy9yZWxlYXNlL2dlb2lwLmRhdCIsIkdlb3NpdGV1cmwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvZ2gvaHlkcmFwb25pcXVlL3Jvc2NvbXZwbi1nZW9zaXRlQDIwMjYwNDE1MjIzNS9yZWxlYXNlL2dlb3NpdGUuZGF0IiwiRG9tYWluU3RyYXRlZ3kiOiJJUElmTm9uTWF0Y2giLCJGYWtlRE5TIjoiZmFsc2UiLCJMYXN0VXBkYXRlZCI6IjAiLCJ1c2VDaHVua0ZpbGVzIjp0cnVlfQ=="
     }
   ],
+  
   "platforms": [
     {
+      "id": "android",
       "name": "Android",
       "icon": "🤖",
       "app": "Happ",
-      "app_sub": "Рекомендуем",
+      "app_sub": "Рекомендуем · все протоколы",
       "downloads": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.happproxy" },
-        { "label": "APK", "url": "#" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.happproxy"
+        },
+        {
+          "label": "APK",
+          "url": "https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk"
+        }
       ]
     },
     {
+      "id": "iphone",
       "name": "iPhone",
       "icon": "🍎",
-      "app": "Happ",
-      "app_sub": "Рекомендуем",
+      "app": "Happ/Incy",
+      "app": "Happ / Incy",
+      "app_sub": "Рекомендуем · простой импорт",
       "downloads": [
-        { "label": "App Store", "url": "#" }
-      ]
-    },
-    {
-      "name": "Windows",
-      "icon": "💻",
-      "app": "Happ",
-      "app_sub": "Рекомендуем",
-      "downloads": [
-        { "label": "Скачать .exe", "url": "#" }
-      ]
-    },
-    {
+        {
+      "id": "macos",
       "name": "macOS",
       "icon": "💻",
-      "app": "Happ",
-      "app_sub": "Рекомендуем",
+      "app": "Happ/Incy",
+      "app": "Happ / Incy",
+      "app_sub": "App Store или DMG",
       "downloads": [
-        { "label": "Скачать .dmg", "url": "#" }
+        {
+          "label": "App Store Global",
+          "url": "https://apps.apple.com/us/app/happ-proxy-utility/id6504287215"
+        },
+        {
+          "label": "App Store RU",
+          "url": "https://apps.apple.com/ru/app/incy/id6756943388"
+        },
+        {
+          "label": "DMG Universal",
+          "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg"
+        }
       ]
     },
     {
+      "id": "linux",
       "name": "Linux",
       "icon": "🐧",
       "app": "Happ",
-      "app_sub": "Рекомендуем",
+      "app_sub": "deb · rpm · pkg",
       "downloads": [
-        { "label": "Скачать .AppImage", "url": "#" }
+        {
+          "label": ".deb",
+          "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.deb"
+        },
+        {
+          "label": ".rpm",
+          "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.rpm"
+        },
+        {
+          "label": ".pkg",
+          "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.pkg.tar.zst"
+        }
       ]
     },
     {
+      "id": "tv",
       "name": "TV",
       "icon": "📺",
       "app": "Happ",
       "app_sub": "Android TV · Apple TV",
       "downloads": [
-        { "label": "Google Play", "url": "#" },
-        { "label": "APK", "url": "#" },
-        { "label": "Apple TV", "url": "#" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.happproxy"
+        },
+        {
+          "label": "APK",
+          "url": "https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk"
+        },
+        {
+          "label": "Apple TV",
+          "url": "https://apps.apple.com/us/app/happ-proxy-utility-for-tv/id6748297274"
+        }
       ]
     }
   ]
