@@ -375,13 +375,16 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
       </div>
     </div>
     
-    <!-- Divider -->
-    <div style="height:1px;background:var(--border2);margin:14px 0 10px;"></div>
-    
-    <!-- Referral bottom link -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 0;">
-      <div style="font-size:11px;color:var(--t3);">Приглашайте друзей — процент с их оплаты</div>
-      <a href="#" onclick="sp('referral',document.querySelectorAll('.tb')[4]);return false;" style="font-size:11px;color:var(--cyan);text-decoration:none;font-weight:600;white-space:nowrap;margin-left:10px;">Рефералы →</a>
+    <!-- Referral card -->
+    <div style="background:linear-gradient(145deg,rgba(124,91,244,.10),rgba(91,63,196,.05));border:1px solid rgba(124,91,244,.2);border-radius:16px;padding:16px;margin-top:4px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);" onclick="sp('referral',document.querySelectorAll('.tb')[4])">
+      <div style="position:absolute;width:110px;height:110px;background:radial-gradient(circle,rgba(124,91,244,.16) 0%,transparent 70%);top:-30px;right:-20px;pointer-events:none;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;">
+        <div style="min-width:0;">
+          <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:5px;">💸 Зарабатывайте с NetVeil</div>
+          <div style="font-size:11px;color:var(--t2);line-height:1.55;">15% с первой оплаты + 5% со всех продлений</div>
+        </div>
+        <div style="font-size:11px;color:var(--purple);font-weight:700;white-space:nowrap;">Подробнее →</div>
+      </div>
     </div>
 
   </div>
