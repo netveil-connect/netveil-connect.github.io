@@ -28,12 +28,10 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   --t4:#252e42;
 }
 .wrap{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;}
-/* ── BACKGROUND DEPTH ── */
 .bg-layer{position:fixed;inset:0;max-width:480px;margin:0 auto;pointer-events:none;z-index:0;}
 .bg-fog1{position:absolute;width:500px;height:400px;background:radial-gradient(ellipse,rgba(0,112,243,.09) 0%,transparent 65%);top:-120px;left:-100px;}
 .bg-fog2{position:absolute;width:400px;height:350px;background:radial-gradient(ellipse,rgba(124,91,244,.06) 0%,transparent 65%);top:300px;right:-80px;}
 .bg-fog3{position:absolute;width:300px;height:250px;background:radial-gradient(ellipse,rgba(0,200,232,.05) 0%,transparent 65%);bottom:100px;left:-60px;}
-/* ── STICKY HEADER ── */
 .header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);}
 .header-inner{display:flex;align-items:center;justify-content:space-between;height:54px;padding:0 20px;}
 .logo{font-size:16px;font-weight:700;letter-spacing:-.4px;color:var(--t1);}
@@ -41,19 +39,16 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .status-pill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.14);border-radius:999px;padding:5px 11px;font-size:10px;font-weight:600;color:var(--green);}
 .sdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pp 2s infinite;}
 @keyframes pp{0%,100%{opacity:1;}50%{opacity:.25;}}
-/* ── TABBAR ── */
 .tabbar{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;gap:0;}
 .tabbar::-webkit-scrollbar{display:none;}
 .tb{flex:none;background:transparent;border:none;border-bottom:2px solid transparent;padding:10px 14px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px;}
 .tb.on{color:var(--cyan);border-bottom-color:var(--cyan);}
 .tb:hover:not(.on){color:var(--t2);}
-/* ── PAGES ── */
 .pg-wrap{position:relative;overflow:hidden;}
 .pg{display:none;padding:16px 16px 100px;position:relative;z-index:1;opacity:0;transform:translateX(40px);transition:opacity .25s ease,transform .25s ease;}
 .pg.on{display:block;opacity:1;transform:translateX(0);}
 .pg.slide-left{transform:translateX(-40px);}
 .pg.slide-right{transform:translateX(40px);}
-/* ── CARD BASE ── */
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -65,7 +60,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
 }
 .card::before{content:'';position:absolute;inset:0;border-radius:18px;background:radial-gradient(ellipse 120% 80% at 20% 0%,rgba(255,255,255,.025) 0%,transparent 60%);pointer-events:none;}
-/* ── HERO CARDS (trial + referral) ── */
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .hero-card{
   border-radius:18px;
@@ -94,10 +88,8 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .hero-btn:hover{opacity:.85;}
 .hero-trial .hero-btn{background:var(--grad);color:#fff;box-shadow:0 4px 16px rgba(0,160,224,.25);}
 .hero-ref .hero-btn{background:linear-gradient(135deg,#7c5bf4,#5b3fc4);color:#fff;box-shadow:0 4px 16px rgba(124,91,244,.25);}
-/* ── SECTION LABEL ── */
 .slbl{font-size:9px;font-weight:600;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .slbl::after{content:'';flex:1;height:1px;background:var(--border2);}
-/* ── TG LINKS ── */
 .tg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .tg-card{
   background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
@@ -113,7 +105,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .tg-desc{font-size:10px;color:var(--t3);line-height:1.45;margin-bottom:12px;}
 .tg-btn{width:100%;background:rgba(0,200,232,.07);border:1px solid rgba(0,200,232,.14);border-radius:8px;padding:7px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;transition:all .15s;}
 .tg-btn:hover{background:rgba(0,200,232,.13);}
-/* ── ACCESS CARD ── */
 .access-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);}
 .access-head{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .access-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
@@ -123,7 +114,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .acdot{width:4px;height:4px;border-radius:50%;min-width:4px;}
 .ac.on .acdot{background:var(--green);}
 .ac.off .acdot{background:var(--t4);}
-/* ── PROTO CARDS ── */
 .proto-card{
   background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;
   position:relative;overflow:hidden;
@@ -171,7 +161,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .plat-btn.active{border-color:rgba(0,200,232,.4);background:rgba(0,200,232,.07);color:var(--cyan);}
 .plat-btn svg{display:block;}
 .plat-name{font-size:11px;font-weight:600;}
-/* ── UNAVAILABLE OVERLAY ── */
 .proto-card.is-unavailable{opacity:.55;filter:grayscale(.4);}
 .proto-card.is-unavailable .btn-row,
 .proto-card.is-unavailable a{pointer-events:none;}
@@ -186,7 +175,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
   letter-spacing:.2px;
 }
 .unavail-banner .dot{width:6px;height:6px;border-radius:50%;background:var(--red);min-width:6px;animation:pp 1.4s infinite;}
-/* ── QR MODAL ── */
 .qr-modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;}
 .qr-modal.open{display:flex;}
 .qr-overlay{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);}
@@ -203,7 +191,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .qr-hint{font-size:10px;color:var(--t4);text-align:center;line-height:1.6;}
 .qr-close{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:9px 30px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .15s;}
 .qr-close:hover{color:var(--t1);border-color:rgba(255,255,255,.1);}
-/* ── INSTALL ── */
 .platform-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04);}
 .platform-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .platform-name{font-size:14px;font-weight:700;color:var(--t1);}
@@ -214,7 +201,10 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .steps{display:flex;flex-direction:column;gap:6px;}
 .step{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t2);}
 .step-n{width:20px;height:20px;border-radius:50%;background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.18);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--cyan);min-width:20px;}
-/* ── PRICING ── */
+.step-routing-btns{display:flex;gap:6px;margin-left:2px;}
+.routing-choice-btn{background:rgba(0,200,232,.08);border:1px solid rgba(0,200,232,.2);border-radius:7px;padding:4px 10px;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:var(--cyan);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.routing-choice-btn:hover{background:rgba(0,200,232,.15);}
+.routing-choice-btn.copied{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.25);color:var(--green);}
 .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
 .price-card{
   background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;
@@ -231,7 +221,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .price-btn:hover{background:rgba(0,200,232,.08);border-color:rgba(0,200,232,.2);color:var(--cyan);}
 .price-btn.featured-btn{background:var(--grad);border:none;color:#fff;box-shadow:0 4px 16px rgba(0,160,224,.25);}
 .price-btn.featured-btn:hover{box-shadow:0 6px 24px rgba(0,160,224,.4);}
-/* ── FAQ ── */
 .faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.2);}
 .faq-q{padding:14px 16px;font-size:12px;font-weight:600;color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:color .15s;}
 .faq-q:hover{color:var(--cyan);}
@@ -239,7 +228,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
 .faq-item.open .faq-arr{transform:rotate(90deg);color:var(--cyan);}
 .faq-a{display:none;padding:0 16px 14px;font-size:11px;color:var(--t2);line-height:1.75;border-top:1px solid var(--border2);}
 .faq-item.open .faq-a{display:block;padding-top:12px;}
-/* ── REFERRAL ── */
 .ref-hero{
   background:linear-gradient(145deg,#160d35 0%,#0e0a28 100%);
   border:1px solid rgba(124,91,244,.2);border-radius:18px;padding:22px;margin-bottom:10px;
@@ -411,18 +399,6 @@ html,body{background:#0d1117;min-height:100%;font-family:'Inter',sans-serif;}
         </div>
         <div id="install-steps" style="display:flex;flex-direction:column;gap:7px;"></div>
       </div>
-      <!-- Routing config -->
-      <div id="routing-card" style="display:none;background:rgba(0,200,232,.04);border:1px solid rgba(0,200,232,.12);border-radius:14px;padding:14px;margin-top:10px;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
-          <div style="flex:1;">
-            <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;">🗺️ Маршрутизация</div>
-            <div style="font-size:10px;color:var(--t3);line-height:1.5;" id="routing-desc"></div>
-          </div>
-          <button id="routing-copy-btn" style="background:rgba(0,200,232,.1);border:1px solid rgba(0,200,232,.2);border-radius:9px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;white-space:nowrap;min-width:80px;transition:all .2s;">
-            Добавить
-          </button>
-        </div>
-      </div>
     </div>
   </div>
   <!-- ══ ТАРИФЫ ══ -->
@@ -530,6 +506,33 @@ function renderKeyHTML(key){
   if(!key)return '<span style="color:var(--t4)">ключ недоступен</span>';
   return key.replace(/^(https?:\/\/)/,'<em>$1</em>');
 }
+function copyRoutingValue(value, btn){
+  if(!value || !btn)return;
+  var orig = btn.getAttribute('data-orig') || btn.textContent;
+  btn.setAttribute('data-orig', orig);
+  function done(){
+    btn.classList.add('copied');
+    btn.textContent = '✓ Готово';
+    setTimeout(function(){
+      btn.classList.remove('copied');
+      btn.textContent = orig;
+    }, 2000);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(value).then(done).catch(function(){
+      fallbackCopy(value); done();
+    });
+  }else{
+    fallbackCopy(value); done();
+  }
+}
+function fallbackCopy(value){
+  var ta=document.createElement('textarea');
+  ta.value=value;ta.style.cssText='position:fixed;opacity:0;';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+}
 function loadApps() {
   fetch('apps.json?t=' + Date.now())
     .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
@@ -539,52 +542,40 @@ function loadApps() {
         var stepsEl = document.getElementById('install-steps');
         if (!stepsEl) return;
         stepsEl.innerHTML = '';
-        d.instruction.forEach(function(text, i) {
+        d.instruction.forEach(function(item, i) {
+          // Support both old (string) and new (object) instruction formats
+          var isObj = (typeof item === 'object' && item !== null);
+          var type = isObj ? (item.type || 'text') : 'text';
+          var text = isObj ? item.text : item;
+
           var step = document.createElement('div');
           step.className = 'step';
           var num = document.createElement('div');
           num.className = 'step-n';
           num.textContent = i + 1;
+          step.appendChild(num);
+
           var txt = document.createElement('span');
           txt.textContent = text;
-          step.appendChild(num);
           step.appendChild(txt);
+
+          if (type === 'routing_choice' && d.routing_config && d.routing_config.options && d.routing_config.options.length) {
+            var btnWrap = document.createElement('span');
+            btnWrap.className = 'step-routing-btns';
+            d.routing_config.options.forEach(function(opt) {
+              var b = document.createElement('button');
+              b.className = 'routing-choice-btn';
+              b.textContent = opt.label;
+              b.onclick = (function(val, el) {
+                return function() { copyRoutingValue(val, el); };
+              })(opt.value, b);
+              btnWrap.appendChild(b);
+            });
+            step.appendChild(btnWrap);
+          }
+
           stepsEl.appendChild(step);
         });
-      }
-      // Show routing config card if available
-      function renderRoutingCard() {
-        var rc = d.routing_config;
-        var card = document.getElementById('routing-card');
-        if (!card) return;
-        if (!rc) { card.style.display = 'none'; return; }
-        card.style.display = 'block';
-        document.getElementById('routing-desc').textContent = rc.description || '';
-        var btn = document.getElementById('routing-copy-btn');
-        btn.onclick = function() {
-          navigator.clipboard.writeText(rc.value).then(function() {
-            btn.textContent = '✓ Скопировано';
-            btn.style.background = 'rgba(34,197,94,.1)';
-            btn.style.borderColor = 'rgba(34,197,94,.2)';
-            btn.style.color = 'var(--green)';
-            setTimeout(function() {
-              btn.textContent = 'Добавить';
-              btn.style.background = 'rgba(0,200,232,.1)';
-              btn.style.borderColor = 'rgba(0,200,232,.2)';
-              btn.style.color = 'var(--cyan)';
-            }, 2000);
-          }).catch(function() {
-            var ta = document.createElement('textarea');
-            ta.value = rc.value;
-            ta.style.cssText = 'position:fixed;opacity:0;';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-            btn.textContent = '✓ Скопировано';
-            setTimeout(function() { btn.textContent = 'Добавить'; }, 2000);
-          });
-        };
       }
       function selectPlatform(idx) {
         selPlatform = idx;
@@ -614,7 +605,6 @@ function loadApps() {
           });
         }
         renderSteps(idx);
-        renderRoutingCard();
       }
       // Render platform grid
       var grid = document.getElementById('platform-grid');
